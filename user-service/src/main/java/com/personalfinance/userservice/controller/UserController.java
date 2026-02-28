@@ -2,10 +2,12 @@ package com.personalfinance.userservice.controller;
 
 import com.personalfinance.userservice.dto.RegisterRequest;
 import com.personalfinance.userservice.dto.UserResponse;
+import com.personalfinance.userservice.entity.User;
 import com.personalfinance.userservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +24,11 @@ public class UserController {
     public ResponseEntity<UserResponse> register(@RequestBody @Valid RegisterRequest request) {
         UserResponse response = userService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(UserService.toResponse(user));
     }
 
     @GetMapping("/health")
