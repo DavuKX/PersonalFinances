@@ -3,13 +3,18 @@ package com.personalfinance.transactionservice.infrastructure.persistence.adapte
 import com.personalfinance.transactionservice.domain.model.Transaction;
 import com.personalfinance.transactionservice.domain.model.TransactionType;
 import com.personalfinance.transactionservice.domain.port.TransactionRepository;
+import com.personalfinance.transactionservice.infrastructure.persistence.entity.TransactionJpaEntity;
 import com.personalfinance.transactionservice.infrastructure.persistence.mapper.TransactionJpaMapper;
 import com.personalfinance.transactionservice.infrastructure.persistence.repository.TransactionJpaRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,8 +45,24 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
     @Override
     public Page<Transaction> findByUserId(UUID userId, TransactionType type, String category,
                                           OffsetDateTime from, OffsetDateTime to, Pageable pageable) {
-        return jpaRepository.findByUserIdFiltered(userId, type, category, from, to, pageable)
-                .map(TransactionJpaMapper::toDomain);
+        Specification<TransactionJpaEntity> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("userId"), userId));
+            if (type != null) {
+                predicates.add(cb.equal(root.get("type"), type));
+            }
+            if (category != null) {
+                predicates.add(cb.equal(root.get("category"), category));
+            }
+            if (from != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("transactionDate"), from));
+            }
+            if (to != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("transactionDate"), to));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return jpaRepository.findAll(spec, pageable).map(TransactionJpaMapper::toDomain);
     }
 
     @Override

@@ -10,10 +10,10 @@
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/domain/model/Transaction.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/domain/model/TransactionType.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/domain/port/TransactionRepository.java
+/home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/config/MessagingFallbackConfig.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/config/RabbitMQConfig.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/event/TransactionCreatedEvent.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/event/TransactionDeletedEvent.java
-/home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/publisher/NoOpTransactionEventPublisher.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/publisher/RabbitTransactionEventPublisher.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/messaging/publisher/TransactionEventPublisher.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/main/java/com/personalfinance/transactionservice/infrastructure/persistence/adapter/TransactionRepositoryAdapter.java

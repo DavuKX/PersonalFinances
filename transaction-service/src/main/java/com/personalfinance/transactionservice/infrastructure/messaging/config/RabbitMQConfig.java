@@ -1,5 +1,7 @@
 package com.personalfinance.transactionservice.infrastructure.messaging.config;
 
+import com.personalfinance.transactionservice.infrastructure.messaging.publisher.RabbitTransactionEventPublisher;
+import com.personalfinance.transactionservice.infrastructure.messaging.publisher.TransactionEventPublisher;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -57,5 +59,11 @@ public class RabbitMQConfig {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(jsonMessageConverter());
         return template;
+    }
+
+    @Bean
+    @Primary
+    public TransactionEventPublisher transactionEventPublisher(RabbitTemplate rabbitTemplate) {
+        return new RabbitTransactionEventPublisher(rabbitTemplate);
     }
 }

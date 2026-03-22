@@ -28,6 +28,7 @@ public class JwtAuthGlobalFilter implements GlobalFilter, Ordered {
             "/api/v1/users/register",
             "/api/v1/users/health",
             "/api/v1/wallets/health",
+            "/api/v1/transactions/health",
             "/actuator/health"
     );
 
