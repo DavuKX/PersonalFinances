@@ -4,6 +4,7 @@ import com.personalfinance.apigateway.security.JwtUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -16,35 +17,38 @@ import java.util.List;
 @Component
 public class JwtAuthGlobalFilter implements GlobalFilter, Ordered {
 
+    private static final String BLOCKLIST_PREFIX = "blocklist:";
+
     private final JwtUtil jwtUtil;
+    private final ReactiveStringRedisTemplate redisTemplate;
 
     private static final List<String> PUBLIC_PATHS = List.of(
             "/api/v1/auth/login",
+            "/api/v1/auth/refresh",
             "/api/v1/users/register",
             "/api/v1/users/health",
             "/api/v1/wallets/health",
             "/actuator/health"
     );
 
-    public JwtAuthGlobalFilter(JwtUtil jwtUtil) {
+    public JwtAuthGlobalFilter(JwtUtil jwtUtil, ReactiveStringRedisTemplate redisTemplate) {
         this.jwtUtil = jwtUtil;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
 
-        // Allow public endpoints through without auth
         if (isPublicPath(path)) {
-            // Strip any spoofed X-User-Id header on public paths too
             ServerHttpRequest cleanRequest = exchange.getRequest().mutate()
                     .headers(h -> h.remove("X-User-Id"))
                     .headers(h -> h.remove("X-User-Roles"))
+                    .headers(h -> h.remove("X-Token-Jti"))
                     .build();
             return chain.filter(exchange.mutate().request(cleanRequest).build());
         }
 
-        // Extract Authorization header
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -57,18 +61,27 @@ public class JwtAuthGlobalFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        // Extract userId from token and forward as trusted header
+        String jti = jwtUtil.extractJti(token);
         String userId = jwtUtil.extractUserId(token);
 
-        // Mutate request: add X-User-Id, strip Authorization (downstream doesn't need it)
-        ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-                .headers(h -> h.remove("X-User-Id"))    // strip any spoofed header
-                .headers(h -> h.remove("X-User-Roles"))  // strip any spoofed header
-                .header("X-User-Id", userId)
-                .headers(h -> h.remove(HttpHeaders.AUTHORIZATION))
-                .build();
+        return redisTemplate.hasKey(BLOCKLIST_PREFIX + jti)
+                .flatMap(blocked -> {
+                    if (Boolean.TRUE.equals(blocked)) {
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                        return exchange.getResponse().setComplete();
+                    }
 
-        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                    ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                            .headers(h -> h.remove("X-User-Id"))
+                            .headers(h -> h.remove("X-User-Roles"))
+                            .headers(h -> h.remove("X-Token-Jti"))
+                            .header("X-User-Id", userId)
+                            .header("X-Token-Jti", jti)
+                            .headers(h -> h.remove(HttpHeaders.AUTHORIZATION))
+                            .build();
+
+                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                });
     }
 
     @Override

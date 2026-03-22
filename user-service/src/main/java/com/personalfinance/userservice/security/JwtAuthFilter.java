@@ -30,27 +30,39 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
-        String token = authHeader.substring(7);
-        if (!jwtService.isTokenValid(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String email = jwtService.extractEmail(token);
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userRepository.findByEmail(email).orElse(null);
+        // When coming through the API Gateway, the JWT is validated there and
+        // the userId is forwarded as a trusted X-User-Id header.
+        String userId = request.getHeader("X-User-Id");
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            User user = userRepository.findById(java.util.UUID.fromString(userId)).orElse(null);
             if (user != null) {
                 var authorities = user.getRoles().stream()
                         .map(SimpleGrantedAuthority::new)
                         .toList();
                 var authToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+
+        // Fallback: also support direct Bearer token (e.g. for tests bypassing the gateway)
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                if (jwtService.isTokenValid(token)) {
+                    String email = jwtService.extractEmail(token);
+                    if (email != null) {
+                        User user = userRepository.findByEmail(email).orElse(null);
+                        if (user != null) {
+                            var authorities = user.getRoles().stream()
+                                    .map(SimpleGrantedAuthority::new)
+                                    .toList();
+                            var authToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        }
+                    }
+                }
             }
         }
 

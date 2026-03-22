@@ -30,6 +30,10 @@ public class JwtUtil {
         return extractAllClaims(token).get("userId", String.class);
     }
 
+    public String extractJti(String token) {
+        return extractAllClaims(token).getId();
+    }
+
     public boolean isTokenValid(String token) {
         try {
             extractAllClaims(token);
