@@ -21,9 +21,11 @@ com/personalfinance/walletservice/presentation/response/WalletTotalsResponse.cla
 com/personalfinance/walletservice/application/usecase/WalletUseCase.class
 com/personalfinance/walletservice/domain/exception/WalletArchivedStateException.class
 com/personalfinance/walletservice/application/dto/WalletTotalsDto$CurrencyTotal.class
+com/personalfinance/walletservice/infrastructure/messaging/event/TransactionDeletedEvent.class
 com/personalfinance/walletservice/infrastructure/persistence/adapter/WalletRepositoryAdapter.class
 com/personalfinance/walletservice/presentation/request/UpdateWalletRequest.class
 com/personalfinance/walletservice/WalletServiceApplication.class
+com/personalfinance/walletservice/infrastructure/messaging/event/TransactionCreatedEvent.class
 com/personalfinance/walletservice/application/dto/WalletDto.class
 com/personalfinance/walletservice/domain/model/Wallet.class
 com/personalfinance/walletservice/presentation/request/SetSpendingLimitRequest.class

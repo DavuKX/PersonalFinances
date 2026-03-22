@@ -122,6 +122,16 @@ public class WalletApplicationService implements WalletUseCase {
         return new WalletTotalsDto(list);
     }
 
+    @Override
+    @Transactional
+    public void adjustBalance(UUID walletId, UUID userId, java.math.BigDecimal balanceChange) {
+        Wallet wallet = loadWallet(userId, walletId);
+        if (!wallet.isArchived()) {
+            Wallet updatedWallet = wallet.adjustBalance(balanceChange);
+            walletRepository.save(updatedWallet);
+        }
+    }
+
     private Wallet loadWallet(UUID userId, UUID walletId) {
         return walletRepository.findByIdAndUserId(walletId, userId)
                 .orElseThrow(() -> new WalletNotFoundException("Wallet not found"));

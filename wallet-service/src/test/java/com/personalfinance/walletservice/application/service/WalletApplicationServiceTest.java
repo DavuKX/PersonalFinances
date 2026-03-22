@@ -232,4 +232,30 @@ class WalletApplicationServiceTest {
 
         assertThrows(WalletNotFoundException.class, () -> walletService.delete(userId, walletId));
     }
+
+    @Test
+    void adjustBalance_shouldUpdateWalletBalance() {
+        Wallet wallet = new Wallet(walletId, userId, "Test Wallet", "USD", BigDecimal.valueOf(100),
+                null, false, null, OffsetDateTime.now(), OffsetDateTime.now());
+        Wallet adjustedWallet = wallet.adjustBalance(BigDecimal.valueOf(50));
+
+        when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(wallet));
+        when(walletRepository.save(any())).thenReturn(adjustedWallet);
+
+        walletService.adjustBalance(walletId, userId, BigDecimal.valueOf(50));
+
+        verify(walletRepository).save(any(Wallet.class));
+    }
+
+    @Test
+    void adjustBalance_shouldIgnoreArchivedWallet() {
+        Wallet archivedWallet = new Wallet(walletId, userId, "Test Wallet", "USD", BigDecimal.valueOf(100),
+                null, true, OffsetDateTime.now(), OffsetDateTime.now(), OffsetDateTime.now());
+
+        when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(archivedWallet));
+
+        walletService.adjustBalance(walletId, userId, BigDecimal.valueOf(50));
+
+        verify(walletRepository, never()).save(any());
+    }
 }

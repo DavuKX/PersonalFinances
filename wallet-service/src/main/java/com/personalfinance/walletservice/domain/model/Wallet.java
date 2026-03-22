@@ -46,6 +46,11 @@ public class Wallet {
         return new Wallet(id, userId, name, currency, balance, spendingLimit, archived, archivedAt, createdAt, OffsetDateTime.now());
     }
 
+    public Wallet adjustBalance(BigDecimal balanceChange) {
+        BigDecimal newBalance = balance.add(balanceChange);
+        return new Wallet(id, userId, name, currency, newBalance, spendingLimit, archived, archivedAt, createdAt, OffsetDateTime.now());
+    }
+
     public Wallet withSpendingLimit(SpendingLimit spendingLimit) {
         return new Wallet(id, userId, name, currency, balance, spendingLimit, archived, archivedAt, createdAt, OffsetDateTime.now());
     }

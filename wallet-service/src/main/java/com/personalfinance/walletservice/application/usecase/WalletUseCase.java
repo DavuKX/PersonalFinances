@@ -8,6 +8,7 @@ import com.personalfinance.walletservice.application.dto.WalletPageDto;
 import com.personalfinance.walletservice.application.dto.WalletTotalsDto;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,4 +24,5 @@ public interface WalletUseCase {
     WalletDto archive(UUID userId, UUID walletId);
     WalletDto restore(UUID userId, UUID walletId);
     WalletTotalsDto getTotals(UUID userId);
+    void adjustBalance(UUID walletId, UUID userId, BigDecimal balanceChange);
 }
