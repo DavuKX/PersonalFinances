@@ -1,9 +1,12 @@
 package com.personalfinance.userservice.presentation.exception;
 
+import com.personalfinance.userservice.domain.exception.AccessDeniedException;
 import com.personalfinance.userservice.domain.exception.InvalidCredentialsException;
+import com.personalfinance.userservice.domain.exception.InvalidPasswordException;
 import com.personalfinance.userservice.domain.exception.TokenExpiredException;
 import com.personalfinance.userservice.domain.exception.TokenRevokedException;
 import com.personalfinance.userservice.domain.exception.UserAlreadyExistsException;
+import com.personalfinance.userservice.domain.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,9 +24,24 @@ public class GlobalExceptionHandler {
         return errorResponse(HttpStatus.CONFLICT, "USER_ALREADY_EXISTS", ex.getMessage());
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleUserNotFound(UserNotFoundException ex) {
+        return errorResponse(HttpStatus.NOT_FOUND, "USER_NOT_FOUND", ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String, Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
         return errorResponse(HttpStatus.UNAUTHORIZED, "INVALID_CREDENTIALS", ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidPassword(InvalidPasswordException ex) {
+        return errorResponse(HttpStatus.BAD_REQUEST, "INVALID_PASSWORD", ex.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDenied(AccessDeniedException ex) {
+        return errorResponse(HttpStatus.FORBIDDEN, "ACCESS_DENIED", ex.getMessage());
     }
 
     @ExceptionHandler({TokenRevokedException.class, TokenExpiredException.class})

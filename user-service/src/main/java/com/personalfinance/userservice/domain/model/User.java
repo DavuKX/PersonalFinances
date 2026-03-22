@@ -26,6 +26,18 @@ public class User {
         return new User(UUID.randomUUID(), username, email, hashedPassword, Set.of("ROLE_USER"), OffsetDateTime.now());
     }
 
+    public User withProfile(String username, String email) {
+        return new User(this.id, username, email, this.hashedPassword, this.roles, this.createdAt);
+    }
+
+    public User withPassword(String hashedPassword) {
+        return new User(this.id, this.username, this.email, hashedPassword, this.roles, this.createdAt);
+    }
+
+    public User withRoles(Set<String> roles) {
+        return new User(this.id, this.username, this.email, this.hashedPassword, roles, this.createdAt);
+    }
+
     public UUID getId() { return id; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }
