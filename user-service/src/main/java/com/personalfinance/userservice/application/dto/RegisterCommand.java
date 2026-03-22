@@ -1,0 +1,3 @@
+package com.personalfinance.userservice.application.dto;
+
+public record RegisterCommand(String username, String email, String password) {}
