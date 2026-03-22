@@ -4,6 +4,8 @@ import com.personalfinance.walletservice.domain.model.Wallet;
 import com.personalfinance.walletservice.domain.port.WalletRepository;
 import com.personalfinance.walletservice.infrastructure.persistence.mapper.WalletJpaMapper;
 import com.personalfinance.walletservice.infrastructure.persistence.repository.WalletJpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +39,11 @@ public class WalletRepositoryAdapter implements WalletRepository {
     @Override
     public List<Wallet> findByUserId(UUID userId) {
         return jpaRepository.findByUserId(userId).stream().map(WalletJpaMapper::toDomain).toList();
+    }
+
+    @Override
+    public Page<Wallet> findByUserIdAndArchived(UUID userId, boolean archived, Pageable pageable) {
+        return jpaRepository.findByUserIdAndArchived(userId, archived, pageable).map(WalletJpaMapper::toDomain);
     }
 
     @Override

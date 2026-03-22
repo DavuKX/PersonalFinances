@@ -1,5 +1,6 @@
 package com.personalfinance.walletservice.presentation.exception;
 
+import com.personalfinance.walletservice.domain.exception.WalletArchivedStateException;
 import com.personalfinance.walletservice.domain.exception.WalletNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WalletNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleWalletNotFound(WalletNotFoundException ex) {
         return errorResponse(HttpStatus.NOT_FOUND, "NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(WalletArchivedStateException.class)
+    public ResponseEntity<Map<String, Object>> handleWalletArchivedState(WalletArchivedStateException ex) {
+        return errorResponse(HttpStatus.CONFLICT, "WALLET_ARCHIVED_STATE", ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

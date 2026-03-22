@@ -1,5 +1,6 @@
 package com.personalfinance.walletservice.infrastructure.persistence.entity;
 
+import com.personalfinance.walletservice.domain.model.LimitPeriod;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,7 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "wallets", indexes = {
-        @Index(name = "idx_wallets_user_id", columnList = "userId")
+        @Index(name = "idx_wallets_user_id", columnList = "userId"),
+        @Index(name = "idx_wallets_archived", columnList = "archived")
 })
 public class WalletJpaEntity {
 
@@ -27,6 +29,18 @@ public class WalletJpaEntity {
 
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal balance;
+
+    @Column(precision = 19, scale = 4)
+    private BigDecimal spendingLimitAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private LimitPeriod spendingLimitPeriod;
+
+    @Column(nullable = false)
+    private boolean archived = false;
+
+    private OffsetDateTime archivedAt;
 
     @Column(nullable = false)
     private OffsetDateTime createdAt;
@@ -48,6 +62,18 @@ public class WalletJpaEntity {
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public BigDecimal getSpendingLimitAmount() { return spendingLimitAmount; }
+    public void setSpendingLimitAmount(BigDecimal spendingLimitAmount) { this.spendingLimitAmount = spendingLimitAmount; }
+
+    public LimitPeriod getSpendingLimitPeriod() { return spendingLimitPeriod; }
+    public void setSpendingLimitPeriod(LimitPeriod spendingLimitPeriod) { this.spendingLimitPeriod = spendingLimitPeriod; }
+
+    public boolean isArchived() { return archived; }
+    public void setArchived(boolean archived) { this.archived = archived; }
+
+    public OffsetDateTime getArchivedAt() { return archivedAt; }
+    public void setArchivedAt(OffsetDateTime archivedAt) { this.archivedAt = archivedAt; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

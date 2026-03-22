@@ -1,10 +1,16 @@
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/WalletServiceApplication.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/CreateWalletCommand.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/SetSpendingLimitCommand.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/UpdateWalletCommand.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/WalletDto.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/WalletPageDto.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/dto/WalletTotalsDto.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/service/WalletApplicationService.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/application/usecase/WalletUseCase.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/exception/WalletArchivedStateException.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/exception/WalletNotFoundException.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/model/LimitPeriod.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/model/SpendingLimit.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/model/Wallet.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/domain/port/WalletRepository.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/infrastructure/messaging/config/RabbitMQConfig.java
@@ -16,5 +22,8 @@
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/controller/WalletController.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/exception/GlobalExceptionHandler.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/request/CreateWalletRequest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/request/SetSpendingLimitRequest.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/request/UpdateWalletRequest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/response/WalletPageResponse.java
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/response/WalletResponse.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/presentation/response/WalletTotalsResponse.java
