@@ -1,0 +1,3 @@
+com/personalfinance/walletservice/service/WalletServiceTest.class
+com/personalfinance/walletservice/WalletServiceApplicationTests.class
+com/personalfinance/walletservice/controller/WalletControllerIntegrationTest.class

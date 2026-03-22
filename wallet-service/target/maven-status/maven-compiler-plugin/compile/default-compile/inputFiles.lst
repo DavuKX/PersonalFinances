@@ -1,0 +1,12 @@
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/WalletServiceApplication.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/config/RabbitMQConfig.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/controller/WalletController.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/dto/CreateWalletRequest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/dto/UpdateWalletRequest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/dto/WalletResponse.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/entity/Wallet.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/exception/GlobalExceptionHandler.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/exception/ResourceNotFoundException.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/listener/TransactionEventListener.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/repository/WalletRepository.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/main/java/com/personalfinance/walletservice/service/WalletService.java

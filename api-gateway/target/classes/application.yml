@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+jwt:
+  secret: my-super-secret-key-for-dev-environment-at-least-256-bits-long!!
+
+spring:
+  application:
+    name: api-gateway
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.autoconfigure.LifecycleMvcEndpointAutoConfiguration
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/v1/users/**, /api/v1/auth/**
+
+            - id: wallet-service
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/v1/wallets/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
