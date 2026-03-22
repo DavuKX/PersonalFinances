@@ -1,3 +1,4 @@
-com/personalfinance/walletservice/service/WalletServiceTest.class
+com/personalfinance/walletservice/application/service/WalletApplicationServiceTest.class
+com/personalfinance/walletservice/infrastructure/persistence/adapter/WalletRepositoryAdapterTest.class
 com/personalfinance/walletservice/WalletServiceApplicationTests.class
-com/personalfinance/walletservice/controller/WalletControllerIntegrationTest.class
+com/personalfinance/walletservice/presentation/controller/WalletControllerIntegrationTest.class

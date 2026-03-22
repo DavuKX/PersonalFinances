@@ -1,3 +1,4 @@
 /home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/WalletServiceApplicationTests.java
-/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/controller/WalletControllerIntegrationTest.java
-/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/service/WalletServiceTest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/application/service/WalletApplicationServiceTest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/infrastructure/persistence/adapter/WalletRepositoryAdapterTest.java
+/home/davukx/Documents/Projects/PersonalFinance/wallet-service/src/test/java/com/personalfinance/walletservice/presentation/controller/WalletControllerIntegrationTest.java

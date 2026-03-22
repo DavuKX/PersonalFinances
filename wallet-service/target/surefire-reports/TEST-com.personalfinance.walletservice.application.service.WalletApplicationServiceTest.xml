@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.personalfinance.walletservice.WalletServiceApplicationTests" time="2.008" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.514" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -8,10 +8,8 @@
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://adoptium.net/"/>
     <property name="user.timezone" value="America/Bogota"/>
-    <property name="org.jboss.logging.provider" value="slf4j"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="21"/>
-    <property name="APPLICATION_NAME" value="wallet-service"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/home/davukx/.sdkman/candidates/java/21-tem/lib"/>
@@ -30,8 +28,6 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
-    <property name="java.awt.headless" value="true"/>
     <property name="surefire.real.class.path" value="/home/davukx/Documents/Projects/PersonalFinance/wallet-service/target/surefire/surefirebooter-20260322171127025_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21+35-LTS"/>
@@ -46,13 +42,10 @@
     <property name="localRepository" value="/home/davukx/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="21"/>
     <property name="user.dir" value="/home/davukx/Documents/Projects/PersonalFinance/wallet-service"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="61124"/>
-    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
@@ -61,49 +54,22 @@
     <property name="java.vm.version" value="21+35-LTS"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
-    <property name="LOGGED_APPLICATION_NAME" value="[wallet-service] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.personalfinance.walletservice.WalletServiceApplicationTests" time="0.005">
-    <system-out><![CDATA[17:11:28.090 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.personalfinance.walletservice.WalletServiceApplicationTests]: WalletServiceApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-17:11:28.142 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.personalfinance.walletservice.WalletServiceApplication for test class com.personalfinance.walletservice.WalletServiceApplicationTests
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v4.0.3)
-
-2026-03-22T17:11:28.318-05:00  INFO 61124 --- [wallet-service] [           main] c.p.w.WalletServiceApplicationTests      : Starting WalletServiceApplicationTests using Java 21 with PID 61124 (started by davukx in /home/davukx/Documents/Projects/PersonalFinance/wallet-service)
-2026-03-22T17:11:28.319-05:00  INFO 61124 --- [wallet-service] [           main] c.p.w.WalletServiceApplicationTests      : No active profile set, falling back to 1 default profile: "default"
-2026-03-22T17:11:28.660-05:00  INFO 61124 --- [wallet-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-03-22T17:11:28.684-05:00  INFO 61124 --- [wallet-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 1 JPA repository interface.
-2026-03-22T17:11:28.877-05:00  INFO 61124 --- [wallet-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-03-22T17:11:28.901-05:00  INFO 61124 --- [wallet-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.4.Final
-2026-03-22T17:11:29.031-05:00  INFO 61124 --- [wallet-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-03-22T17:11:29.045-05:00  INFO 61124 --- [wallet-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-03-22T17:11:29.122-05:00  INFO 61124 --- [wallet-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2026-03-22T17:11:29.123-05:00  INFO 61124 --- [wallet-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-03-22T17:11:29.148-05:00  INFO 61124 --- [wallet-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [jdbc:h2:mem:testdb]
-	Database driver: H2 JDBC Driver
-	Database dialect: H2Dialect
-	Database version: 2.4.240
-	Default catalog/schema: TESTDB/PUBLIC
-	Autocommit mode: undefined/unknown
-	Isolation level: READ_COMMITTED [default READ_COMMITTED]
-	JDBC fetch size: 100
-	Pool: DataSourceConnectionProvider
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2026-03-22T17:11:29.446-05:00  INFO 61124 --- [wallet-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-03-22T17:11:29.461-05:00  INFO 61124 --- [wallet-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-03-22T17:11:29.497-05:00  INFO 61124 --- [wallet-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-03-22T17:11:29.644-05:00  WARN 61124 --- [wallet-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-03-22T17:11:29.932-05:00  INFO 61124 --- [wallet-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2026-03-22T17:11:29.964-05:00  INFO 61124 --- [wallet-service] [           main] c.p.w.WalletServiceApplicationTests      : Started WalletServiceApplicationTests in 1.76 seconds (process running for 2.907)
-]]></system-out>
+  <testcase name="create_returnsWalletDto_withUpperCaseCurrency" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.471">
+    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/davukx/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
   </testcase>
+  <testcase name="update_returnsUpdatedDto_whenFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.004"/>
+  <testcase name="getById_throws_whenNotFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.002"/>
+  <testcase name="getAllByUser_returnsEmptyList_whenNoWallets" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.002"/>
+  <testcase name="update_throws_whenNotFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.002"/>
+  <testcase name="create_defaultsBalanceToZero_whenNullProvided" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.003"/>
+  <testcase name="getAllByUser_returnsList" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.002"/>
+  <testcase name="getById_returnsWalletDto_whenFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.002"/>
+  <testcase name="delete_throws_whenNotFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.003"/>
+  <testcase name="delete_succeeds_whenFound" classname="com.personalfinance.walletservice.application.service.WalletApplicationServiceTest" time="0.009"/>
 </testsuite>
