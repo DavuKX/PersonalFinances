@@ -24,8 +24,8 @@ public class CreateTransactionRequest {
     @NotBlank
     private String currency;
 
-    private String category;
-    private String subCategory;
+    private UUID categoryId;
+    private UUID subCategoryId;
     private String description;
     private OffsetDateTime transactionDate;
 
@@ -41,11 +41,11 @@ public class CreateTransactionRequest {
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public UUID getCategoryId() { return categoryId; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
 
-    public String getSubCategory() { return subCategory; }
-    public void setSubCategory(String subCategory) { this.subCategory = subCategory; }
+    public UUID getSubCategoryId() { return subCategoryId; }
+    public void setSubCategoryId(UUID subCategoryId) { this.subCategoryId = subCategoryId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

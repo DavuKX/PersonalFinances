@@ -13,7 +13,7 @@ import java.util.UUID;
         @Index(name = "idx_tx_wallet_id", columnList = "walletId"),
         @Index(name = "idx_tx_transaction_date", columnList = "transactionDate"),
         @Index(name = "idx_tx_type", columnList = "type"),
-        @Index(name = "idx_tx_category", columnList = "category")
+        @Index(name = "idx_tx_category_id", columnList = "categoryId")
 })
 public class TransactionJpaEntity {
 
@@ -37,11 +37,11 @@ public class TransactionJpaEntity {
     @Column(nullable = false, length = 3)
     private String currency;
 
-    @Column(length = 100)
-    private String category;
+    @Column(columnDefinition = "uuid")
+    private UUID categoryId;
 
-    @Column(length = 100)
-    private String subCategory;
+    @Column(columnDefinition = "uuid")
+    private UUID subCategoryId;
 
     @Column(length = 500)
     private String description;
@@ -73,11 +73,11 @@ public class TransactionJpaEntity {
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public UUID getCategoryId() { return categoryId; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
 
-    public String getSubCategory() { return subCategory; }
-    public void setSubCategory(String subCategory) { this.subCategory = subCategory; }
+    public UUID getSubCategoryId() { return subCategoryId; }
+    public void setSubCategoryId(UUID subCategoryId) { this.subCategoryId = subCategoryId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

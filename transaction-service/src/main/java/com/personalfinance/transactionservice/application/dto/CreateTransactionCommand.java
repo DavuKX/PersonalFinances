@@ -11,8 +11,8 @@ public record CreateTransactionCommand(
         TransactionType type,
         BigDecimal amount,
         String currency,
-        String category,
-        String subCategory,
+        UUID categoryId,
+        UUID subCategoryId,
         String description,
         OffsetDateTime transactionDate
 ) {}

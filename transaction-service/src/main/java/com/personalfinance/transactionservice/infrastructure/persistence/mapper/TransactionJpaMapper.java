@@ -15,8 +15,8 @@ public class TransactionJpaMapper {
         e.setType(t.getType());
         e.setAmount(t.getAmount());
         e.setCurrency(t.getCurrency());
-        e.setCategory(t.getCategory());
-        e.setSubCategory(t.getSubCategory());
+        e.setCategoryId(t.getCategoryId());
+        e.setSubCategoryId(t.getSubCategoryId());
         e.setDescription(t.getDescription());
         e.setTransactionDate(t.getTransactionDate());
         e.setCreatedAt(t.getCreatedAt());
@@ -26,7 +26,7 @@ public class TransactionJpaMapper {
 
     public static Transaction toDomain(TransactionJpaEntity e) {
         return new Transaction(e.getId(), e.getUserId(), e.getWalletId(), e.getType(), e.getAmount(),
-                e.getCurrency(), e.getCategory(), e.getSubCategory(), e.getDescription(),
+                e.getCurrency(), e.getCategoryId(), e.getSubCategoryId(), e.getDescription(),
                 e.getTransactionDate(), e.getCreatedAt(), e.getUpdatedAt());
     }
 }

@@ -27,7 +27,7 @@ spring:
             - id: transaction-service
               uri: http://localhost:8083
               predicates:
-                - Path=/api/v1/transactions/**, /api/v1/wallets/{walletId}/transactions/**
+                - Path=/api/v1/transactions/**, /api/v1/wallets/{walletId}/transactions/**, /api/v1/categories/**
 
             - id: wallet-service
               uri: http://localhost:8082

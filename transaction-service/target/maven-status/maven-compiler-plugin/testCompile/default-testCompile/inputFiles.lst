@@ -1,2 +1,4 @@
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/test/java/com/personalfinance/transactionservice/TransactionServiceApplicationTests.java
+/home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/test/java/com/personalfinance/transactionservice/application/service/CategoryApplicationServiceTest.java
 /home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/test/java/com/personalfinance/transactionservice/application/service/TransactionApplicationServiceTest.java
+/home/davukx/Documents/Projects/PersonalFinance/transaction-service/src/test/java/com/personalfinance/transactionservice/infrastructure/config/DefaultCategorySeederTest.java

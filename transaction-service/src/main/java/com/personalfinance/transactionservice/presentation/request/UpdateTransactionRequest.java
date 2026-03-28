@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class UpdateTransactionRequest {
 
@@ -16,8 +17,8 @@ public class UpdateTransactionRequest {
     @Positive
     private BigDecimal amount;
 
-    private String category;
-    private String subCategory;
+    private UUID categoryId;
+    private UUID subCategoryId;
     private String description;
     private OffsetDateTime transactionDate;
 
@@ -27,11 +28,11 @@ public class UpdateTransactionRequest {
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public UUID getCategoryId() { return categoryId; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
 
-    public String getSubCategory() { return subCategory; }
-    public void setSubCategory(String subCategory) { this.subCategory = subCategory; }
+    public UUID getSubCategoryId() { return subCategoryId; }
+    public void setSubCategoryId(UUID subCategoryId) { this.subCategoryId = subCategoryId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

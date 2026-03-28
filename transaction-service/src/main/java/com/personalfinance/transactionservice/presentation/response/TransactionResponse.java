@@ -14,8 +14,10 @@ public class TransactionResponse {
     private TransactionType type;
     private BigDecimal amount;
     private String currency;
-    private String category;
-    private String subCategory;
+    private UUID categoryId;
+    private UUID subCategoryId;
+    private String categoryName;
+    private String subCategoryName;
     private String description;
     private OffsetDateTime transactionDate;
     private OffsetDateTime createdAt;
@@ -39,11 +41,17 @@ public class TransactionResponse {
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public UUID getCategoryId() { return categoryId; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
 
-    public String getSubCategory() { return subCategory; }
-    public void setSubCategory(String subCategory) { this.subCategory = subCategory; }
+    public UUID getSubCategoryId() { return subCategoryId; }
+    public void setSubCategoryId(UUID subCategoryId) { this.subCategoryId = subCategoryId; }
+
+    public String getCategoryName() { return categoryName; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+
+    public String getSubCategoryName() { return subCategoryName; }
+    public void setSubCategoryName(String subCategoryName) { this.subCategoryName = subCategoryName; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

@@ -12,15 +12,15 @@ public class Transaction {
     private final TransactionType type;
     private final BigDecimal amount;
     private final String currency;
-    private final String category;
-    private final String subCategory;
+    private final UUID categoryId;
+    private final UUID subCategoryId;
     private final String description;
     private final OffsetDateTime transactionDate;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
     public Transaction(UUID id, UUID userId, UUID walletId, TransactionType type, BigDecimal amount,
-                       String currency, String category, String subCategory, String description,
+                       String currency, UUID categoryId, UUID subCategoryId, String description,
                        OffsetDateTime transactionDate, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
@@ -28,8 +28,8 @@ public class Transaction {
         this.type = type;
         this.amount = amount;
         this.currency = currency;
-        this.category = category;
-        this.subCategory = subCategory;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
         this.description = description;
         this.transactionDate = transactionDate;
         this.createdAt = createdAt;
@@ -37,17 +37,17 @@ public class Transaction {
     }
 
     public static Transaction create(UUID userId, UUID walletId, TransactionType type, BigDecimal amount,
-                                     String currency, String category, String subCategory,
+                                     String currency, UUID categoryId, UUID subCategoryId,
                                      String description, OffsetDateTime transactionDate) {
         OffsetDateTime now = OffsetDateTime.now();
         return new Transaction(UUID.randomUUID(), userId, walletId, type, amount, currency.toUpperCase(),
-                category, subCategory, description,
+                categoryId, subCategoryId, description,
                 transactionDate != null ? transactionDate : now, now, now);
     }
 
-    public Transaction withDetails(TransactionType type, BigDecimal amount, String category,
-                                   String subCategory, String description, OffsetDateTime transactionDate) {
-        return new Transaction(id, userId, walletId, type, amount, currency, category, subCategory,
+    public Transaction withDetails(TransactionType type, BigDecimal amount, UUID categoryId,
+                                   UUID subCategoryId, String description, OffsetDateTime transactionDate) {
+        return new Transaction(id, userId, walletId, type, amount, currency, categoryId, subCategoryId,
                 description, transactionDate, createdAt, OffsetDateTime.now());
     }
 
@@ -61,8 +61,8 @@ public class Transaction {
     public TransactionType getType() { return type; }
     public BigDecimal getAmount() { return amount; }
     public String getCurrency() { return currency; }
-    public String getCategory() { return category; }
-    public String getSubCategory() { return subCategory; }
+    public UUID getCategoryId() { return categoryId; }
+    public UUID getSubCategoryId() { return subCategoryId; }
     public String getDescription() { return description; }
     public OffsetDateTime getTransactionDate() { return transactionDate; }
     public OffsetDateTime getCreatedAt() { return createdAt; }

@@ -1,5 +1,6 @@
 package com.personalfinance.transactionservice.presentation.exception;
 
+import com.personalfinance.transactionservice.domain.exception.CategoryNotFoundException;
 import com.personalfinance.transactionservice.domain.exception.TransactionNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleTransactionNotFound(TransactionNotFoundException ex) {
+        return errorResponse(HttpStatus.NOT_FOUND, "NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleCategoryNotFound(CategoryNotFoundException ex) {
         return errorResponse(HttpStatus.NOT_FOUND, "NOT_FOUND", ex.getMessage());
     }
 

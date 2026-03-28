@@ -43,7 +43,7 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
     }
 
     @Override
-    public Page<Transaction> findByUserId(UUID userId, TransactionType type, String category,
+    public Page<Transaction> findByUserId(UUID userId, TransactionType type, UUID categoryId,
                                           OffsetDateTime from, OffsetDateTime to, Pageable pageable) {
         Specification<TransactionJpaEntity> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -51,8 +51,8 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
             if (type != null) {
                 predicates.add(cb.equal(root.get("type"), type));
             }
-            if (category != null) {
-                predicates.add(cb.equal(root.get("category"), category));
+            if (categoryId != null) {
+                predicates.add(cb.equal(root.get("categoryId"), categoryId));
             }
             if (from != null) {
                 predicates.add(cb.greaterThanOrEqualTo(root.get("transactionDate"), from));

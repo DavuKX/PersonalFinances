@@ -10,7 +10,7 @@ public record TransactionFilterCommand(
         UUID userId,
         UUID walletId,
         TransactionType type,
-        String category,
+        UUID categoryId,
         OffsetDateTime from,
         OffsetDateTime to,
         Pageable pageable

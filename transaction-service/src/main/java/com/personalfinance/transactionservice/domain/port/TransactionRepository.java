@@ -13,7 +13,7 @@ public interface TransactionRepository {
     Transaction save(Transaction transaction);
     Optional<Transaction> findByIdAndUserId(UUID id, UUID userId);
     Page<Transaction> findByWalletIdAndUserId(UUID walletId, UUID userId, Pageable pageable);
-    Page<Transaction> findByUserId(UUID userId, TransactionType type, String category,
+    Page<Transaction> findByUserId(UUID userId, TransactionType type, UUID categoryId,
                                    OffsetDateTime from, OffsetDateTime to, Pageable pageable);
     void delete(Transaction transaction);
 }

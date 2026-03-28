@@ -38,7 +38,7 @@ public class TransactionController {
             @RequestBody @Valid CreateTransactionRequest request) {
         TransactionDto dto = transactionUseCase.create(userId, new CreateTransactionCommand(
                 request.getWalletId(), request.getType(), request.getAmount(), request.getCurrency(),
-                request.getCategory(), request.getSubCategory(), request.getDescription(), request.getTransactionDate()));
+                request.getCategoryId(), request.getSubCategoryId(), request.getDescription(), request.getTransactionDate()));
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(dto));
     }
 
@@ -66,7 +66,7 @@ public class TransactionController {
     public ResponseEntity<TransactionPageResponse> getTransactions(
             @RequestHeader("X-User-Id") UUID userId,
             @RequestParam(required = false) TransactionType type,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) UUID categoryId,
             @RequestParam(required = false) OffsetDateTime from,
             @RequestParam(required = false) OffsetDateTime to,
             @RequestParam(defaultValue = "0") int page,
@@ -75,7 +75,7 @@ public class TransactionController {
             @RequestParam(defaultValue = "desc") String direction) {
         Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         TransactionPageDto pageDto = transactionUseCase.listByUser(new TransactionFilterCommand(
-                userId, null, type, category, from, to, PageRequest.of(page, size, sort)));
+                userId, null, type, categoryId, from, to, PageRequest.of(page, size, sort)));
         return ResponseEntity.ok(toPageResponse(pageDto));
     }
 
@@ -85,8 +85,8 @@ public class TransactionController {
             @PathVariable UUID id,
             @RequestBody @Valid UpdateTransactionRequest request) {
         TransactionDto dto = transactionUseCase.update(userId, id, new UpdateTransactionCommand(
-                request.getType(), request.getAmount(), request.getCategory(),
-                request.getSubCategory(), request.getDescription(), request.getTransactionDate()));
+                request.getType(), request.getAmount(), request.getCategoryId(),
+                request.getSubCategoryId(), request.getDescription(), request.getTransactionDate()));
         return ResponseEntity.ok(toResponse(dto));
     }
 
@@ -111,8 +111,10 @@ public class TransactionController {
         response.setType(dto.type());
         response.setAmount(dto.amount());
         response.setCurrency(dto.currency());
-        response.setCategory(dto.category());
-        response.setSubCategory(dto.subCategory());
+        response.setCategoryId(dto.categoryId());
+        response.setSubCategoryId(dto.subCategoryId());
+        response.setCategoryName(dto.categoryName());
+        response.setSubCategoryName(dto.subCategoryName());
         response.setDescription(dto.description());
         response.setTransactionDate(dto.transactionDate());
         response.setCreatedAt(dto.createdAt());

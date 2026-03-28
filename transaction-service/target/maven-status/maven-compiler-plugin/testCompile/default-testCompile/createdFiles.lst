@@ -1,1 +1,4 @@
+com/personalfinance/transactionservice/application/service/TransactionApplicationServiceTest.class
+com/personalfinance/transactionservice/infrastructure/config/DefaultCategorySeederTest.class
+com/personalfinance/transactionservice/application/service/CategoryApplicationServiceTest.class
 com/personalfinance/transactionservice/TransactionServiceApplicationTests.class

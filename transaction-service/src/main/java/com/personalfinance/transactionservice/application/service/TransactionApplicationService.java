@@ -6,8 +6,11 @@ import com.personalfinance.transactionservice.application.dto.TransactionFilterC
 import com.personalfinance.transactionservice.application.dto.TransactionPageDto;
 import com.personalfinance.transactionservice.application.dto.UpdateTransactionCommand;
 import com.personalfinance.transactionservice.application.usecase.TransactionUseCase;
+import com.personalfinance.transactionservice.domain.exception.CategoryNotFoundException;
 import com.personalfinance.transactionservice.domain.exception.TransactionNotFoundException;
+import com.personalfinance.transactionservice.domain.model.Category;
 import com.personalfinance.transactionservice.domain.model.Transaction;
+import com.personalfinance.transactionservice.domain.port.CategoryRepository;
 import com.personalfinance.transactionservice.domain.port.TransactionRepository;
 import com.personalfinance.transactionservice.infrastructure.messaging.event.TransactionCreatedEvent;
 import com.personalfinance.transactionservice.infrastructure.messaging.event.TransactionDeletedEvent;
@@ -23,19 +26,23 @@ import java.util.UUID;
 public class TransactionApplicationService implements TransactionUseCase {
 
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
     private final TransactionEventPublisher eventPublisher;
 
     public TransactionApplicationService(TransactionRepository transactionRepository,
+                                         CategoryRepository categoryRepository,
                                          TransactionEventPublisher eventPublisher) {
         this.transactionRepository = transactionRepository;
+        this.categoryRepository = categoryRepository;
         this.eventPublisher = eventPublisher;
     }
 
     @Override
     @Transactional
     public TransactionDto create(UUID userId, CreateTransactionCommand command) {
+        validateCategories(userId, command.categoryId(), command.subCategoryId());
         Transaction transaction = Transaction.create(userId, command.walletId(), command.type(),
-                command.amount(), command.currency(), command.category(), command.subCategory(),
+                command.amount(), command.currency(), command.categoryId(), command.subCategoryId(),
                 command.description(), command.transactionDate());
         Transaction saved = transactionRepository.save(transaction);
         eventPublisher.publishCreated(new TransactionCreatedEvent(
@@ -57,15 +64,16 @@ public class TransactionApplicationService implements TransactionUseCase {
     @Override
     public TransactionPageDto listByUser(TransactionFilterCommand filter) {
         return toPageDto(transactionRepository.findByUserId(
-                filter.userId(), filter.type(), filter.category(), filter.from(), filter.to(), filter.pageable()));
+                filter.userId(), filter.type(), filter.categoryId(), filter.from(), filter.to(), filter.pageable()));
     }
 
     @Override
     @Transactional
     public TransactionDto update(UUID userId, UUID transactionId, UpdateTransactionCommand command) {
         Transaction transaction = loadTransaction(userId, transactionId);
-        Transaction updated = transaction.withDetails(command.type(), command.amount(), command.category(),
-                command.subCategory(), command.description(), command.transactionDate());
+        validateCategories(userId, command.categoryId(), command.subCategoryId());
+        Transaction updated = transaction.withDetails(command.type(), command.amount(), command.categoryId(),
+                command.subCategoryId(), command.description(), command.transactionDate());
         return toDto(transactionRepository.save(updated));
     }
 
@@ -77,6 +85,29 @@ public class TransactionApplicationService implements TransactionUseCase {
         eventPublisher.publishDeleted(new TransactionDeletedEvent(
                 transaction.getId(), transaction.getUserId(), transaction.getWalletId(),
                 transaction.getType(), transaction.getAmount(), transaction.getCurrency()));
+    }
+
+    private void validateCategories(UUID userId, UUID categoryId, UUID subCategoryId) {
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+            if (!category.isAccessibleBy(userId)) {
+                throw new CategoryNotFoundException("Category not found");
+            }
+            if (!category.isTopLevel()) {
+                throw new IllegalArgumentException("categoryId must reference a top-level category");
+            }
+        }
+        if (subCategoryId != null) {
+            Category subCategory = categoryRepository.findById(subCategoryId)
+                    .orElseThrow(() -> new CategoryNotFoundException("Subcategory not found"));
+            if (!subCategory.isAccessibleBy(userId)) {
+                throw new CategoryNotFoundException("Subcategory not found");
+            }
+            if (categoryId != null && !categoryId.equals(subCategory.getParentId())) {
+                throw new IllegalArgumentException("Subcategory does not belong to the specified category");
+            }
+        }
     }
 
     private Transaction loadTransaction(UUID userId, UUID transactionId) {
@@ -91,8 +122,17 @@ public class TransactionApplicationService implements TransactionUseCase {
     }
 
     private TransactionDto toDto(Transaction t) {
+        String categoryName = resolveCategoryName(t.getCategoryId());
+        String subCategoryName = resolveCategoryName(t.getSubCategoryId());
         return new TransactionDto(t.getId(), t.getUserId(), t.getWalletId(), t.getType(), t.getAmount(),
-                t.getCurrency(), t.getCategory(), t.getSubCategory(), t.getDescription(),
-                t.getTransactionDate(), t.getCreatedAt(), t.getUpdatedAt());
+                t.getCurrency(), t.getCategoryId(), t.getSubCategoryId(), categoryName, subCategoryName,
+                t.getDescription(), t.getTransactionDate(), t.getCreatedAt(), t.getUpdatedAt());
+    }
+
+    private String resolveCategoryName(UUID categoryId) {
+        if (categoryId == null) {
+            return null;
+        }
+        return categoryRepository.findById(categoryId).map(Category::getName).orElse(null);
     }
 }
