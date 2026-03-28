@@ -47,7 +47,8 @@ public class TransactionApplicationService implements TransactionUseCase {
         Transaction saved = transactionRepository.save(transaction);
         eventPublisher.publishCreated(new TransactionCreatedEvent(
                 saved.getId(), saved.getUserId(), saved.getWalletId(),
-                saved.getType(), saved.getAmount(), saved.getCurrency()));
+                saved.getType(), saved.getAmount(), saved.getCurrency(),
+                saved.getCategoryId(), saved.getSubCategoryId(), saved.getTransactionDate()));
         return toDto(saved);
     }
 
@@ -84,7 +85,8 @@ public class TransactionApplicationService implements TransactionUseCase {
         transactionRepository.delete(transaction);
         eventPublisher.publishDeleted(new TransactionDeletedEvent(
                 transaction.getId(), transaction.getUserId(), transaction.getWalletId(),
-                transaction.getType(), transaction.getAmount(), transaction.getCurrency()));
+                transaction.getType(), transaction.getAmount(), transaction.getCurrency(),
+                transaction.getCategoryId(), transaction.getSubCategoryId(), transaction.getTransactionDate()));
     }
 
     private void validateCategories(UUID userId, UUID categoryId, UUID subCategoryId) {

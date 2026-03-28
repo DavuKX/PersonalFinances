@@ -34,6 +34,11 @@ spring:
               predicates:
                 - Path=/api/v1/wallets/**
 
+            - id: analytics-service
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/v1/analytics/**
+
 
 management:
   endpoints:
