@@ -1,0 +1,5 @@
+CREATE DATABASE userdb;
+CREATE DATABASE transactiondb;
+CREATE DATABASE walletdb;
+CREATE DATABASE analyticsdb;
+

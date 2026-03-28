@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+  namespace: personalfinance
+data:
+  SERVER_PORT: "8081"
+  DB_URL: jdbc:postgresql://postgres.personalfinance.svc.cluster.local:5432/userdb
+  REDIS_HOST: redis.personalfinance.svc.cluster.local
+  REDIS_PORT: "6379"
+  JWT_EXPIRATION_MS: "900000"
+  JWT_REFRESH_EXPIRATION_MS: "604800000"
+  JPA_DDL_AUTO: update
+

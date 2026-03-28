@@ -1,1 +1,15 @@
 /.github/copilot-instructions.md
+
+# Environment files
+.env
+*.env.local
+
+# IDE
+.idea/
+*.iml
+
+# Build
+**/target/
+
+# OS
+.DS_Store

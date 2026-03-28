@@ -49,6 +49,12 @@ public class WalletController {
     }
 
     @GetMapping("")
+    public ResponseEntity<List<WalletResponse>> getWallets(@RequestHeader("X-User-Id") UUID userId) {
+        List<WalletResponse> wallets = walletUseCase.getAllByUser(userId).stream().map(this::toResponse).toList();
+        return ResponseEntity.ok(wallets);
+    }
+
+    @GetMapping("/paged")
     public ResponseEntity<WalletPageResponse> getWalletsPaged(
             @RequestHeader("X-User-Id") UUID userId,
             @RequestParam(defaultValue = "0") int page,
