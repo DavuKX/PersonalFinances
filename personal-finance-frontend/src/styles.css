@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: oklch(49.07% 0.2449 264.05);
+  --color-primary-light: oklch(63.68% 0.2137 264.05);
+  --color-success: oklch(64.47% 0.1799 162.48);
+  --color-danger: oklch(59.45% 0.2126 17.29);
+  --color-warning: oklch(75.49% 0.1833 71.68);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-card: #f9fafb;
+  --color-text-primary: #111827;
+  --color-text-muted: #6b7280;
+  --color-accent: #4f46e5;
+  --color-success-val: #10b981;
+  --color-danger-val: #f43f5e;
+  --color-warning-val: #f59e0b;
+  --color-border: #e5e7eb;
+}
+
+.dark {
+  --color-bg-primary: #030712;
+  --color-bg-secondary: #111827;
+  --color-bg-card: #111827;
+  --color-text-primary: #f3f4f6;
+  --color-text-muted: #9ca3af;
+  --color-accent: #818cf8;
+  --color-success-val: #34d399;
+  --color-danger-val: #fb7185;
+  --color-warning-val: #fbbf24;
+  --color-border: #374151;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
