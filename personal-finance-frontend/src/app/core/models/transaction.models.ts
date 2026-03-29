@@ -6,34 +6,39 @@ export enum TransactionType {
 }
 
 export interface TransactionResponse {
-  id: number;
-  walletId: number;
-  walletName: string;
-  categoryId: number | null;
-  categoryName: string | null;
+  id: string;
+  walletId: string;
   type: TransactionType;
   amount: number;
+  currency: string;
+  categoryId: string | null;
+  subCategoryId: string | null;
+  categoryName: string | null;
+  subCategoryName: string | null;
   description: string | null;
-  date: string;
+  transactionDate: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export type TransactionPageResponse = PageResponse<TransactionResponse>;
 
 export interface CreateTransactionRequest {
-  walletId: number;
-  categoryId: number | null;
+  walletId: string;
   type: TransactionType;
   amount: number;
+  currency: string;
+  categoryId: string | null;
+  subCategoryId: string | null;
   description: string | null;
-  date: string;
+  transactionDate: string;
 }
 
 export interface UpdateTransactionRequest {
-  categoryId: number | null;
   type: TransactionType;
   amount: number;
+  categoryId: string | null;
+  subCategoryId: string | null;
   description: string | null;
-  date: string;
+  transactionDate: string;
 }
-

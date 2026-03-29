@@ -7,14 +7,16 @@ export enum LimitPeriod {
 }
 
 export interface WalletResponse {
-  id: number;
+  id: string;
   name: string;
   currency: string;
   balance: number;
   archived: boolean;
-  spendingLimit: number | null;
-  limitPeriod: LimitPeriod | null;
+  spendingLimitAmount: number | null;
+  spendingLimitPeriod: LimitPeriod | null;
+  archivedAt: string | null;
   createdAt: string;
+  updatedAt: string;
 }
 
 export type WalletPageResponse = PageResponse<WalletResponse>;
@@ -22,12 +24,11 @@ export type WalletPageResponse = PageResponse<WalletResponse>;
 export interface CreateWalletRequest {
   name: string;
   currency: string;
-  initialBalance: number;
+  balance: number;
 }
 
 export interface UpdateWalletRequest {
   name: string;
-  currency: string;
 }
 
 export interface SpendingLimitRequest {
@@ -35,8 +36,11 @@ export interface SpendingLimitRequest {
   period: LimitPeriod;
 }
 
-export interface WalletTotalsResponse {
-  totalBalance: number;
+export interface CurrencyTotal {
   currency: string;
+  total: number;
 }
 
+export interface WalletTotalsResponse {
+  totals: CurrencyTotal[];
+}

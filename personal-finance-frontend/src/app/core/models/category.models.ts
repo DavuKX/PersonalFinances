@@ -1,17 +1,16 @@
 import { TransactionType } from './transaction.models';
 
 export interface CategoryResponse {
-  id: number;
+  id: string;
   name: string;
-  type: TransactionType;
-  parentId: number | null;
-  parentName: string | null;
-  subcategories: CategoryResponse[];
+  transactionType: TransactionType;
+  parentId: string | null;
+  isDefault: boolean;
+  createdAt: string;
 }
 
 export interface CreateCategoryRequest {
   name: string;
-  type: TransactionType;
-  parentId: number | null;
+  transactionType: TransactionType;
+  parentId: string | null;
 }
-
