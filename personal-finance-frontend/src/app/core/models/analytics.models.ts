@@ -1,3 +1,5 @@
+import { TransactionType } from './transaction.models';
+
 export interface MonthlyAnalyticsResponse {
   year: number;
   month: number;
@@ -5,20 +7,24 @@ export interface MonthlyAnalyticsResponse {
   totalExpenses: number;
   netSavings: number;
   savingsRate: number;
-  currency: string;
+  transactionCount: number;
 }
 
 export interface CategoryAnalyticsResponse {
-  categoryId: number;
-  categoryName: string;
-  total: number;
-  percentage: number;
-  currency: string;
+  categoryId: string;
+  transactionType: TransactionType;
+  year: number;
+  month: number;
+  totalAmount: number;
+  transactionCount: number;
 }
 
 export interface SavingsRateResponse {
   year: number;
   month: number;
+  totalIncome: number;
+  totalExpenses: number;
+  netSavings: number;
   savingsRate: number;
 }
 
@@ -28,15 +34,23 @@ export interface TrendResponse {
   totalIncome: number;
   totalExpenses: number;
   netSavings: number;
-  currency: string;
+  savingsRate: number;
+  transactionCount: number;
 }
 
 export interface WalletBreakdownResponse {
-  walletId: number;
-  walletName: string;
+  walletId: string;
+  year: number;
+  month: number;
   totalIncome: number;
   totalExpenses: number;
   netSavings: number;
-  currency: string;
+  savingsRate: number;
+  transactionCount: number;
 }
 
+export interface AnalyticsParams {
+  year?: number;
+  month?: number;
+  walletId?: string;
+}
