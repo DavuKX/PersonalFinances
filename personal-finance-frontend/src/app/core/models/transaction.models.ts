@@ -42,3 +42,10 @@ export interface UpdateTransactionRequest {
   description: string | null;
   transactionDate: string;
 }
+
+export interface TransactionFilters {
+  type?: TransactionType;
+  categoryId?: string;
+  from?: string;
+  to?: string;
+}
