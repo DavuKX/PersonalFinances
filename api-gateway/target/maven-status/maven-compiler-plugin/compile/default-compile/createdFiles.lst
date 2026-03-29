@@ -1,3 +1,4 @@
+com/personalfinance/apigateway/config/CorsConfig.class
 com/personalfinance/apigateway/filter/JwtAuthGlobalFilter.class
 com/personalfinance/apigateway/ApiGatewayApplication.class
 com/personalfinance/apigateway/security/JwtUtil.class

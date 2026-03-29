@@ -1,3 +1,4 @@
 /home/davukx/Documents/Projects/PersonalFinance/api-gateway/src/main/java/com/personalfinance/apigateway/ApiGatewayApplication.java
+/home/davukx/Documents/Projects/PersonalFinance/api-gateway/src/main/java/com/personalfinance/apigateway/config/CorsConfig.java
 /home/davukx/Documents/Projects/PersonalFinance/api-gateway/src/main/java/com/personalfinance/apigateway/filter/JwtAuthGlobalFilter.java
 /home/davukx/Documents/Projects/PersonalFinance/api-gateway/src/main/java/com/personalfinance/apigateway/security/JwtUtil.java

@@ -40,6 +40,9 @@ spring:
                 - Path=/api/v1/analytics/**
 
 
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+
 management:
   endpoints:
     web:

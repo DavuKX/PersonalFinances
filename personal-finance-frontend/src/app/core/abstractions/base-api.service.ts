@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_BASE_URL } from '../tokens/api-base-url.token';
 import { PageResponse } from '../models/pagination.models';
 
 export abstract class BaseApiService<T> {
@@ -9,8 +8,7 @@ export abstract class BaseApiService<T> {
   protected readonly baseUrl: string;
 
   constructor(path: string) {
-    const apiBaseUrl = inject(API_BASE_URL);
-    this.baseUrl = `${apiBaseUrl}${path}`;
+    this.baseUrl = path;
   }
 
   protected getAll(): Observable<T[]> {
@@ -43,4 +41,3 @@ export abstract class BaseApiService<T> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
-
