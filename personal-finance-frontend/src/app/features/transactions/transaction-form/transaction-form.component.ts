@@ -71,6 +71,13 @@ function todayString(): string {
                 >
                   ↓ Expense
                 </button>
+                <button
+                  type="button"
+                  (click)="changeType(TransactionType.SAVINGS)"
+                  [class]="form.value.type === TransactionType.SAVINGS ? activeTypeClass : inactiveTypeClass"
+                >
+                  🏦 Savings
+                </button>
               </div>
             </app-form-field>
 

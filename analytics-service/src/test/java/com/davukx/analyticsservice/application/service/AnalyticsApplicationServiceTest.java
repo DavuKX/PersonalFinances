@@ -188,8 +188,9 @@ class AnalyticsApplicationServiceTest {
 
         assertThat(result.totalIncome()).isEqualByComparingTo(BigDecimal.valueOf(2000));
         assertThat(result.totalExpenses()).isEqualByComparingTo(BigDecimal.valueOf(800));
+        assertThat(result.totalSavings()).isEqualByComparingTo(BigDecimal.ZERO);
         assertThat(result.netSavings()).isEqualByComparingTo(BigDecimal.valueOf(1200));
-        assertThat(result.savingsRate()).isEqualByComparingTo(BigDecimal.valueOf(60));
+        assertThat(result.savingsRate()).isEqualByComparingTo(BigDecimal.ZERO);
     }
 
     @Test
@@ -263,7 +264,7 @@ class AnalyticsApplicationServiceTest {
 
         SavingsRateDto result = service.getSavingsRate(userId, walletId, 2026, 3);
 
-        assertThat(result.savingsRate()).isEqualByComparingTo(BigDecimal.valueOf(75));
+        assertThat(result.savingsRate()).isEqualByComparingTo(BigDecimal.ZERO);
         assertThat(result.netSavings()).isEqualByComparingTo(BigDecimal.valueOf(750));
     }
 

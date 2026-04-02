@@ -109,7 +109,7 @@ public class AnalyticsApplicationService implements AnalyticsUseCase {
     public SavingsRateDto getSavingsRate(UUID userId, UUID walletId, int year, int month) {
         MonthlyAnalyticsDto monthly = getMonthly(userId, walletId, year, month);
         return new SavingsRateDto(userId, walletId, year, month,
-                monthly.totalIncome(), monthly.totalExpenses(),
+                monthly.totalIncome(), monthly.totalExpenses(), monthly.totalSavings(),
                 monthly.netSavings(), monthly.savingsRate());
     }
 
@@ -136,13 +136,15 @@ public class AnalyticsApplicationService implements AnalyticsUseCase {
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal expenses = group.stream().map(MonthlySummary::getTotalExpenses)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
-            BigDecimal netSavings = income.subtract(expenses);
+            BigDecimal savings = group.stream().map(MonthlySummary::getTotalSavings)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal netSavings = income.subtract(expenses).subtract(savings);
             BigDecimal savingsRate = income.compareTo(BigDecimal.ZERO) > 0
-                    ? netSavings.divide(income, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP)
+                    ? savings.divide(income, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP)
                     : BigDecimal.ZERO;
             int count = group.stream().mapToInt(MonthlySummary::getTransactionCount).sum();
             trend.add(new TrendPointDto(cursor.getYear(), cursor.getMonthValue(),
-                    income, expenses, netSavings, savingsRate, count));
+                    income, expenses, savings, netSavings, savingsRate, count));
             cursor = cursor.plusMonths(1);
         }
         return trend;
@@ -152,7 +154,7 @@ public class AnalyticsApplicationService implements AnalyticsUseCase {
     public List<WalletBreakdownDto> getWalletBreakdown(UUID userId, int year, int month) {
         return monthlySummaryRepository.findByUserIdAndYearAndMonth(userId, year, month).stream()
                 .map(s -> new WalletBreakdownDto(s.getWalletId(), s.getYear(), s.getMonth(),
-                        s.getTotalIncome(), s.getTotalExpenses(), s.getNetSavings(),
+                        s.getTotalIncome(), s.getTotalExpenses(), s.getTotalSavings(), s.getNetSavings(),
                         s.getSavingsRate(), s.getTransactionCount()))
                 .toList();
     }
@@ -170,22 +172,24 @@ public class AnalyticsApplicationService implements AnalyticsUseCase {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal expenses = summaries.stream().map(MonthlySummary::getTotalExpenses)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal savings = summaries.stream().map(MonthlySummary::getTotalSavings)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         int count = summaries.stream().mapToInt(MonthlySummary::getTransactionCount).sum();
-        BigDecimal netSavings = income.subtract(expenses);
+        BigDecimal netSavings = income.subtract(expenses).subtract(savings);
         BigDecimal savingsRate = income.compareTo(BigDecimal.ZERO) > 0
-                ? netSavings.divide(income, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP)
+                ? savings.divide(income, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP)
                 : BigDecimal.ZERO;
-        return new MonthlyAnalyticsDto(userId, walletId, year, month, income, expenses, netSavings, savingsRate, count);
+        return new MonthlyAnalyticsDto(userId, walletId, year, month, income, expenses, savings, netSavings, savingsRate, count);
     }
 
     private MonthlyAnalyticsDto toMonthlyDto(MonthlySummary s) {
         return new MonthlyAnalyticsDto(s.getUserId(), s.getWalletId(), s.getYear(), s.getMonth(),
-                s.getTotalIncome(), s.getTotalExpenses(), s.getNetSavings(), s.getSavingsRate(), s.getTransactionCount());
+                s.getTotalIncome(), s.getTotalExpenses(), s.getTotalSavings(), s.getNetSavings(), s.getSavingsRate(), s.getTransactionCount());
     }
 
     private MonthlyAnalyticsDto emptyMonthlyDto(UUID userId, UUID walletId, int year, int month) {
         return new MonthlyAnalyticsDto(userId, walletId, year, month,
-                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0);
+                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0);
     }
 
     private record CategoryKey(UUID categoryId, TransactionType type) {}

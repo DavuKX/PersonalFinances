@@ -10,6 +10,7 @@ public class SavingsRateResponse {
     private int month;
     private BigDecimal totalIncome;
     private BigDecimal totalExpenses;
+    private BigDecimal totalSavings;
     private BigDecimal netSavings;
     private BigDecimal savingsRate;
 
@@ -25,6 +26,8 @@ public class SavingsRateResponse {
     public void setTotalIncome(BigDecimal totalIncome) { this.totalIncome = totalIncome; }
     public BigDecimal getTotalExpenses() { return totalExpenses; }
     public void setTotalExpenses(BigDecimal totalExpenses) { this.totalExpenses = totalExpenses; }
+    public BigDecimal getTotalSavings() { return totalSavings; }
+    public void setTotalSavings(BigDecimal totalSavings) { this.totalSavings = totalSavings; }
     public BigDecimal getNetSavings() { return netSavings; }
     public void setNetSavings(BigDecimal netSavings) { this.netSavings = netSavings; }
     public BigDecimal getSavingsRate() { return savingsRate; }

@@ -16,6 +16,7 @@ public class MonthlySummaryJpaMapper {
         e.setMonth(s.getMonth());
         e.setTotalIncome(s.getTotalIncome());
         e.setTotalExpenses(s.getTotalExpenses());
+        e.setTotalSavings(s.getTotalSavings());
         e.setTransactionCount(s.getTransactionCount());
         e.setUpdatedAt(s.getUpdatedAt());
         return e;
@@ -23,7 +24,7 @@ public class MonthlySummaryJpaMapper {
 
     public static MonthlySummary toDomain(MonthlySummaryJpaEntity e) {
         return new MonthlySummary(e.getId(), e.getUserId(), e.getWalletId(),
-                e.getYear(), e.getMonth(), e.getTotalIncome(), e.getTotalExpenses(),
+                e.getYear(), e.getMonth(), e.getTotalIncome(), e.getTotalExpenses(), e.getTotalSavings(),
                 e.getTransactionCount(), e.getUpdatedAt());
     }
 }

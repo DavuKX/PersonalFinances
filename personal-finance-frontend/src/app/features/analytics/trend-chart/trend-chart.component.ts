@@ -57,6 +57,15 @@ export class TrendChartComponent {
             pointRadius: this.mini() ? 0 : 3,
           },
           {
+            label: 'Savings',
+            data: sorted.map((d) => d.totalSavings),
+            borderColor: 'rgba(245,158,11,1)',
+            backgroundColor: 'rgba(245,158,11,0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: this.mini() ? 0 : 3,
+          },
+          {
             label: 'Net Savings',
             data: sorted.map((d) => d.netSavings),
             borderColor: 'rgba(99,102,241,1)',

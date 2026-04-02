@@ -40,7 +40,7 @@ interface CategoryTree {
           <app-spinner size="lg" />
         </div>
       } @else {
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           @for (column of columns; track column.type) {
             <div>
               <div class="flex items-center justify-between mb-3">
@@ -143,6 +143,7 @@ export class CategoryListComponent {
   protected readonly columns = [
     { type: TransactionType.INCOME, label: 'Income', icon: '💰' },
     { type: TransactionType.EXPENSE, label: 'Expense', icon: '💸' },
+    { type: TransactionType.SAVINGS, label: 'Savings', icon: '🏦' },
   ];
 
   protected readonly deleteMessage = computed(() => {

@@ -163,12 +163,12 @@ import { ConfirmationDialogComponent } from '../../../shared/components/confirma
                       {{ categoryLabel(tx) }}
                     </td>
                     <td class="px-4 py-3">
-                      <app-badge [variant]="tx.type === 'INCOME' ? 'success' : 'danger'">
-                        {{ tx.type === 'INCOME' ? 'Income' : 'Expense' }}
+                      <app-badge [variant]="tx.type === 'INCOME' ? 'success' : tx.type === 'SAVINGS' ? 'warning' : 'danger'">
+                        {{ tx.type === 'INCOME' ? 'Income' : tx.type === 'SAVINGS' ? 'Savings' : 'Expense' }}
                       </app-badge>
                     </td>
                     <td class="px-4 py-3 text-right font-medium whitespace-nowrap"
-                        [class]="tx.type === 'INCOME' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'">
+                        [class]="tx.type === 'INCOME' ? 'text-emerald-600 dark:text-emerald-400' : tx.type === 'SAVINGS' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'">
                       {{ tx.type === 'INCOME' ? '+' : '-' }}{{ tx.amount | number: '1.2-2' }} {{ tx.currency }}
                     </td>
                     <td class="px-4 py-3 text-right whitespace-nowrap">
@@ -252,13 +252,14 @@ export class TransactionListComponent {
   protected readonly deleteMessage = computed(() => {
     const tx = this.txToDelete();
     if (!tx) return '';
-    return `Delete ${tx.type === TransactionType.INCOME ? 'income' : 'expense'} of ${tx.amount} ${tx.currency}? This cannot be undone.`;
+    return `Delete ${tx.type === TransactionType.INCOME ? 'income' : tx.type === TransactionType.SAVINGS ? 'savings' : 'expense'} of ${tx.amount} ${tx.currency}? This cannot be undone.`;
   });
 
   protected readonly typeOptions = [
     { label: 'All', value: '' as TransactionType | '' },
     { label: 'Income', value: TransactionType.INCOME },
     { label: 'Expense', value: TransactionType.EXPENSE },
+    { label: 'Savings', value: TransactionType.SAVINGS },
   ];
 
   protected readonly activeFilterBtnClass =

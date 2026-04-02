@@ -10,7 +10,7 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
     @if (loading()) {
       <div class="flex justify-center py-8"><app-spinner size="lg" /></div>
     } @else if (data()) {
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
         <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
           <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Income</p>
           <p class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
@@ -27,7 +27,14 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
         </div>
 
         <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Net Savings</p>
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Savings</p>
+          <p class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+            {{ data()!.totalSavings | number: '1.2-2' }}
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Remaining</p>
           <p class="mt-2 text-2xl font-bold"
              [class]="data()!.netSavings >= 0 ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'">
             {{ data()!.netSavings | number: '1.2-2' }}
@@ -43,8 +50,8 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
         </div>
       </div>
     } @else {
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        @for (i of [1,2,3,4]; track i) {
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
+        @for (i of [1,2,3,4,5]; track i) {
           <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5 h-24 animate-pulse"></div>
         }
       </div>

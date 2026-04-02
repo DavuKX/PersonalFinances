@@ -16,14 +16,15 @@ const mockMonthly: MonthlyAnalyticsResponse = {
   month: 3,
   totalIncome: 3000,
   totalExpenses: 1500,
-  netSavings: 1500,
-  savingsRate: 50,
+  totalSavings: 500,
+  netSavings: 1000,
+  savingsRate: 16.67,
   transactionCount: 10,
 };
 
 const mockTrend: TrendResponse = {
   year: 2025, month: 1, totalIncome: 3000, totalExpenses: 1500,
-  netSavings: 1500, savingsRate: 50, transactionCount: 10,
+  totalSavings: 500, netSavings: 1000, savingsRate: 16.67, transactionCount: 10,
 };
 
 describe('AnalyticsApiService', () => {
@@ -73,7 +74,7 @@ describe('AnalyticsApiService', () => {
   it('getSavingsRate sends GET to /api/v1/analytics/savings-rate', () => {
     const mockRate: SavingsRateResponse = {
       year: 2025, month: 3, totalIncome: 3000, totalExpenses: 1500,
-      netSavings: 1500, savingsRate: 50,
+      totalSavings: 500, netSavings: 1000, savingsRate: 16.67,
     };
     service.getSavingsRate({ year: 2025, month: 3 }).subscribe((r) => expect(r).toEqual(mockRate));
     httpMock.expectOne((r) => r.url === '/api/v1/analytics/savings-rate').flush(mockRate);
@@ -96,7 +97,7 @@ describe('AnalyticsApiService', () => {
   it('getWalletBreakdown sends GET to /api/v1/analytics/wallet-breakdown', () => {
     const mockBreakdown: WalletBreakdownResponse[] = [{
       walletId: 'w-1', year: 2025, month: 3, totalIncome: 3000, totalExpenses: 1500,
-      netSavings: 1500, savingsRate: 50, transactionCount: 10,
+      totalSavings: 500, netSavings: 1000, savingsRate: 16.67, transactionCount: 10,
     }];
     service.getWalletBreakdown(2025, 3).subscribe((r) => expect(r).toEqual(mockBreakdown));
     const req = httpMock.expectOne((r) => r.url === '/api/v1/analytics/wallet-breakdown');

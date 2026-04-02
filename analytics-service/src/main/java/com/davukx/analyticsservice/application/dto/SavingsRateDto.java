@@ -10,6 +10,7 @@ public record SavingsRateDto(
         int month,
         BigDecimal totalIncome,
         BigDecimal totalExpenses,
+        BigDecimal totalSavings,
         BigDecimal netSavings,
         BigDecimal savingsRate
 ) {}

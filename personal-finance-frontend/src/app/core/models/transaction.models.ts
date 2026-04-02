@@ -3,6 +3,7 @@ import { PageResponse } from './pagination.models';
 export enum TransactionType {
   INCOME = 'INCOME',
   EXPENSE = 'EXPENSE',
+  SAVINGS = 'SAVINGS',
 }
 
 export interface TransactionResponse {

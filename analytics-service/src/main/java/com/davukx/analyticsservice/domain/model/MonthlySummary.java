@@ -14,13 +14,14 @@ public class MonthlySummary {
     private final int month;
     private BigDecimal totalIncome;
     private BigDecimal totalExpenses;
+    private BigDecimal totalSavings;
     private BigDecimal netSavings;
     private BigDecimal savingsRate;
     private int transactionCount;
     private OffsetDateTime updatedAt;
 
     public MonthlySummary(UUID id, UUID userId, UUID walletId, int year, int month,
-                          BigDecimal totalIncome, BigDecimal totalExpenses,
+                          BigDecimal totalIncome, BigDecimal totalExpenses, BigDecimal totalSavings,
                           int transactionCount, OffsetDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
@@ -29,6 +30,7 @@ public class MonthlySummary {
         this.month = month;
         this.totalIncome = totalIncome;
         this.totalExpenses = totalExpenses;
+        this.totalSavings = totalSavings;
         this.transactionCount = transactionCount;
         this.updatedAt = updatedAt;
         recalculateDerived();
@@ -36,12 +38,14 @@ public class MonthlySummary {
 
     public static MonthlySummary empty(UUID userId, UUID walletId, int year, int month) {
         return new MonthlySummary(UUID.randomUUID(), userId, walletId, year, month,
-                BigDecimal.ZERO, BigDecimal.ZERO, 0, OffsetDateTime.now());
+                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0, OffsetDateTime.now());
     }
 
     public MonthlySummary applyCreated(TransactionType type, BigDecimal amount) {
         if (type == TransactionType.INCOME) {
             totalIncome = totalIncome.add(amount);
+        } else if (type == TransactionType.SAVINGS) {
+            totalSavings = totalSavings.add(amount);
         } else {
             totalExpenses = totalExpenses.add(amount);
         }
@@ -54,6 +58,8 @@ public class MonthlySummary {
     public MonthlySummary applyDeleted(TransactionType type, BigDecimal amount) {
         if (type == TransactionType.INCOME) {
             totalIncome = totalIncome.subtract(amount).max(BigDecimal.ZERO);
+        } else if (type == TransactionType.SAVINGS) {
+            totalSavings = totalSavings.subtract(amount).max(BigDecimal.ZERO);
         } else {
             totalExpenses = totalExpenses.subtract(amount).max(BigDecimal.ZERO);
         }
@@ -64,9 +70,9 @@ public class MonthlySummary {
     }
 
     private void recalculateDerived() {
-        netSavings = totalIncome.subtract(totalExpenses);
+        netSavings = totalIncome.subtract(totalExpenses).subtract(totalSavings);
         if (totalIncome.compareTo(BigDecimal.ZERO) > 0) {
-            savingsRate = netSavings.divide(totalIncome, 4, RoundingMode.HALF_UP)
+            savingsRate = totalSavings.divide(totalIncome, 4, RoundingMode.HALF_UP)
                     .multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP);
         } else {
             savingsRate = BigDecimal.ZERO;
@@ -80,9 +86,9 @@ public class MonthlySummary {
     public int getMonth() { return month; }
     public BigDecimal getTotalIncome() { return totalIncome; }
     public BigDecimal getTotalExpenses() { return totalExpenses; }
+    public BigDecimal getTotalSavings() { return totalSavings; }
     public BigDecimal getNetSavings() { return netSavings; }
     public BigDecimal getSavingsRate() { return savingsRate; }
     public int getTransactionCount() { return transactionCount; }
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
 }
-

@@ -29,6 +29,7 @@ public class DefaultCategorySeeder implements ApplicationRunner {
         }
         seedExpenseCategories();
         seedIncomeCategories();
+        seedSavingsCategories();
     }
 
     private void seedExpenseCategories() {
@@ -55,6 +56,17 @@ public class DefaultCategorySeeder implements ApplicationRunner {
         incomeCategories.put("Rental Income", List.of());
         incomeCategories.put("Refunds", List.of());
         seedCategories(incomeCategories, TransactionType.INCOME);
+    }
+
+    private void seedSavingsCategories() {
+        Map<String, List<String>> savingsCategories = new LinkedHashMap<>();
+        savingsCategories.put("Emergency Fund", List.of());
+        savingsCategories.put("Retirement", List.of("401k", "IRA", "Pension"));
+        savingsCategories.put("Investments", List.of("Stocks", "Bonds", "Crypto", "Real Estate"));
+        savingsCategories.put("Short-term Goals", List.of("Vacation", "Car", "Home"));
+        savingsCategories.put("Education Fund", List.of());
+        savingsCategories.put("Other Savings", List.of());
+        seedCategories(savingsCategories, TransactionType.SAVINGS);
     }
 
     private void seedCategories(Map<String, List<String>> categoriesMap, TransactionType type) {

@@ -132,7 +132,7 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
                         {{ categoryLabel(tx) }}
                       </td>
                       <td class="px-4 py-3 text-right font-medium whitespace-nowrap"
-                          [class]="tx.type === 'INCOME' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'">
+                          [class]="tx.type === 'INCOME' ? 'text-emerald-600 dark:text-emerald-400' : tx.type === 'SAVINGS' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'">
                         {{ tx.type === 'INCOME' ? '+' : '-' }}{{ tx.amount | number: '1.2-2' }} {{ tx.currency }}
                       </td>
                     </tr>

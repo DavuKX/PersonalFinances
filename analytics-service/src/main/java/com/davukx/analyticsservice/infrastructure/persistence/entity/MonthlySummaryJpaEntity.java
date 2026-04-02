@@ -38,6 +38,9 @@ public class MonthlySummaryJpaEntity {
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal totalExpenses;
 
+    @Column(nullable = false, precision = 19, scale = 4, columnDefinition = "numeric(19,4) default 0")
+    private BigDecimal totalSavings = BigDecimal.ZERO;
+
     @Column(nullable = false)
     private int transactionCount;
 
@@ -64,6 +67,9 @@ public class MonthlySummaryJpaEntity {
 
     public BigDecimal getTotalExpenses() { return totalExpenses; }
     public void setTotalExpenses(BigDecimal totalExpenses) { this.totalExpenses = totalExpenses; }
+
+    public BigDecimal getTotalSavings() { return totalSavings; }
+    public void setTotalSavings(BigDecimal totalSavings) { this.totalSavings = totalSavings; }
 
     public int getTransactionCount() { return transactionCount; }
     public void setTransactionCount(int transactionCount) { this.transactionCount = transactionCount; }

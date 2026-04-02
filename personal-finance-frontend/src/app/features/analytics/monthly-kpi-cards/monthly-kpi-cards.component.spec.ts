@@ -5,7 +5,7 @@ import { MonthlyAnalyticsResponse } from '../../../core/models/analytics.models'
 
 const mockData: MonthlyAnalyticsResponse = {
   year: 2025, month: 3, totalIncome: 3000, totalExpenses: 1500,
-  netSavings: 1500, savingsRate: 50, transactionCount: 10,
+  totalSavings: 500, netSavings: 1000, savingsRate: 16.67, transactionCount: 10,
 };
 
 describe('MonthlyKpiCardsComponent', () => {
@@ -29,11 +29,11 @@ describe('MonthlyKpiCardsComponent', () => {
     expect(fixture.nativeElement.querySelector('app-spinner')).toBeTruthy();
   });
 
-  it('renders four KPI cards when data is provided', () => {
+  it('renders five KPI cards when data is provided', () => {
     fixture.componentRef.setInput('data', mockData);
     fixture.detectChanges();
     const cards = fixture.nativeElement.querySelectorAll('.rounded-xl');
-    expect(cards.length).toBe(4);
+    expect(cards.length).toBe(5);
   });
 
   it('displays income value from data', () => {

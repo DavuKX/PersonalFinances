@@ -25,6 +25,7 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400">Wallet</th>
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Income</th>
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Expenses</th>
+              <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Savings</th>
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Net Savings</th>
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Savings Rate</th>
               <th class="pb-3 font-medium text-gray-500 dark:text-gray-400 text-right">Transactions</th>
@@ -36,6 +37,7 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
                 <td class="py-3 font-medium text-gray-900 dark:text-gray-100">{{ walletName(row.walletId) }}</td>
                 <td class="py-3 text-right text-emerald-600 dark:text-emerald-400">{{ row.totalIncome | number: '1.2-2' }}</td>
                 <td class="py-3 text-right text-rose-600 dark:text-rose-400">{{ row.totalExpenses | number: '1.2-2' }}</td>
+                <td class="py-3 text-right text-amber-600 dark:text-amber-400">{{ row.totalSavings | number: '1.2-2' }}</td>
                 <td
                   class="py-3 text-right"
                   [class]="row.netSavings >= 0 ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'"

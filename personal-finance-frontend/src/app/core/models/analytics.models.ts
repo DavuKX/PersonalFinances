@@ -5,6 +5,7 @@ export interface MonthlyAnalyticsResponse {
   month: number;
   totalIncome: number;
   totalExpenses: number;
+  totalSavings: number;
   netSavings: number;
   savingsRate: number;
   transactionCount: number;
@@ -24,6 +25,7 @@ export interface SavingsRateResponse {
   month: number;
   totalIncome: number;
   totalExpenses: number;
+  totalSavings: number;
   netSavings: number;
   savingsRate: number;
 }
@@ -33,6 +35,7 @@ export interface TrendResponse {
   month: number;
   totalIncome: number;
   totalExpenses: number;
+  totalSavings: number;
   netSavings: number;
   savingsRate: number;
   transactionCount: number;
@@ -44,6 +47,7 @@ export interface WalletBreakdownResponse {
   month: number;
   totalIncome: number;
   totalExpenses: number;
+  totalSavings: number;
   netSavings: number;
   savingsRate: number;
   transactionCount: number;

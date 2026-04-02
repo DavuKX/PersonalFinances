@@ -90,6 +90,7 @@ public class AnalyticsController {
         r.setMonth(dto.month());
         r.setTotalIncome(dto.totalIncome());
         r.setTotalExpenses(dto.totalExpenses());
+        r.setTotalSavings(dto.totalSavings());
         r.setNetSavings(dto.netSavings());
         r.setSavingsRate(dto.savingsRate());
         r.setTransactionCount(dto.transactionCount());
@@ -115,6 +116,7 @@ public class AnalyticsController {
         r.setMonth(dto.month());
         r.setTotalIncome(dto.totalIncome());
         r.setTotalExpenses(dto.totalExpenses());
+        r.setTotalSavings(dto.totalSavings());
         r.setNetSavings(dto.netSavings());
         r.setSavingsRate(dto.savingsRate());
         return r;
@@ -126,6 +128,7 @@ public class AnalyticsController {
         r.setMonth(dto.month());
         r.setTotalIncome(dto.totalIncome());
         r.setTotalExpenses(dto.totalExpenses());
+        r.setTotalSavings(dto.totalSavings());
         r.setNetSavings(dto.netSavings());
         r.setSavingsRate(dto.savingsRate());
         r.setTransactionCount(dto.transactionCount());
@@ -139,10 +142,10 @@ public class AnalyticsController {
         r.setMonth(dto.month());
         r.setTotalIncome(dto.totalIncome());
         r.setTotalExpenses(dto.totalExpenses());
+        r.setTotalSavings(dto.totalSavings());
         r.setNetSavings(dto.netSavings());
         r.setSavingsRate(dto.savingsRate());
         r.setTransactionCount(dto.transactionCount());
         return r;
     }
 }
-

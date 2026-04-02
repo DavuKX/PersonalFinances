@@ -104,12 +104,14 @@ import { EmptyStateComponent } from '../../shared/components/empty-state/empty-s
                     <span
                       [class]="tx.type === 'INCOME'
                         ? 'text-sm font-semibold text-emerald-600 dark:text-emerald-400'
-                        : 'text-sm font-semibold text-rose-600 dark:text-rose-400'"
+                        : tx.type === 'SAVINGS'
+                          ? 'text-sm font-semibold text-amber-600 dark:text-amber-400'
+                          : 'text-sm font-semibold text-rose-600 dark:text-rose-400'"
                     >
                       {{ tx.type === 'INCOME' ? '+' : '-' }}{{ tx.amount | number: '1.2-2' }}
                     </span>
-                    <app-badge [variant]="tx.type === 'INCOME' ? 'success' : 'danger'">
-                      {{ tx.type === 'INCOME' ? 'IN' : 'OUT' }}
+                    <app-badge [variant]="tx.type === 'INCOME' ? 'success' : tx.type === 'SAVINGS' ? 'warning' : 'danger'">
+                      {{ tx.type === 'INCOME' ? 'IN' : tx.type === 'SAVINGS' ? 'SAV' : 'OUT' }}
                     </app-badge>
                   </div>
                 </li>

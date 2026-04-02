@@ -33,11 +33,11 @@ class CategoryBreakdownChartStub {
 
 const mockMonthly: MonthlyAnalyticsResponse = {
   year: 2026, month: 3, totalIncome: 3000, totalExpenses: 1500,
-  netSavings: 1500, savingsRate: 50, transactionCount: 10,
+  totalSavings: 500, netSavings: 1000, savingsRate: 16.67, transactionCount: 10,
 };
 
 const mockTrend: TrendResponse[] = [
-  { year: 2026, month: 1, totalIncome: 2000, totalExpenses: 1000, netSavings: 1000, savingsRate: 50, transactionCount: 5 },
+  { year: 2026, month: 1, totalIncome: 2000, totalExpenses: 1000, totalSavings: 300, netSavings: 700, savingsRate: 15, transactionCount: 5 },
 ];
 
 const mockCategory: CategoryAnalyticsResponse[] = [
@@ -45,7 +45,7 @@ const mockCategory: CategoryAnalyticsResponse[] = [
 ];
 
 const mockBreakdown: WalletBreakdownResponse[] = [
-  { walletId: 'w-1', year: 2026, month: 3, totalIncome: 3000, totalExpenses: 1500, netSavings: 1500, savingsRate: 50, transactionCount: 10 },
+  { walletId: 'w-1', year: 2026, month: 3, totalIncome: 3000, totalExpenses: 1500, totalSavings: 500, netSavings: 1000, savingsRate: 16.67, transactionCount: 10 },
 ];
 
 const mockWallets: WalletResponse[] = [

@@ -17,6 +17,7 @@ class MonthlySummaryJpaMapperTest {
         MonthlySummary original = MonthlySummary.empty(UUID.randomUUID(), UUID.randomUUID(), 2026, 3);
         original.applyCreated(TransactionType.INCOME, BigDecimal.valueOf(500));
         original.applyCreated(TransactionType.EXPENSE, BigDecimal.valueOf(200));
+        original.applyCreated(TransactionType.SAVINGS, BigDecimal.valueOf(100));
 
         MonthlySummaryJpaEntity entity = MonthlySummaryJpaMapper.toEntity(original);
         MonthlySummary restored = MonthlySummaryJpaMapper.toDomain(entity);
@@ -28,7 +29,8 @@ class MonthlySummaryJpaMapperTest {
         assertThat(restored.getMonth()).isEqualTo(3);
         assertThat(restored.getTotalIncome()).isEqualByComparingTo(BigDecimal.valueOf(500));
         assertThat(restored.getTotalExpenses()).isEqualByComparingTo(BigDecimal.valueOf(200));
-        assertThat(restored.getTransactionCount()).isEqualTo(2);
+        assertThat(restored.getTotalSavings()).isEqualByComparingTo(BigDecimal.valueOf(100));
+        assertThat(restored.getTransactionCount()).isEqualTo(3);
     }
 }
 

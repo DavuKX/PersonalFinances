@@ -9,8 +9,9 @@ const makeBreakdown = (walletId: string): WalletBreakdownResponse => ({
   month: 3,
   totalIncome: 3000,
   totalExpenses: 1500,
-  netSavings: 1500,
-  savingsRate: 50,
+  totalSavings: 500,
+  netSavings: 1000,
+  savingsRate: 16.67,
   transactionCount: 10,
 });
 
@@ -81,7 +82,7 @@ describe('WalletBreakdownTableComponent', () => {
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('3,000.00');
     expect(text).toContain('1,500.00');
-    expect(text).toContain('50.0%');
+    expect(text).toContain('16.7%');
   });
 
   it('walletName returns wallet name when found', () => {

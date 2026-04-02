@@ -14,8 +14,9 @@ const makeTrend = (year: number, month: number): TrendResponse => ({
   month,
   totalIncome: 3000,
   totalExpenses: 1500,
-  netSavings: 1500,
-  savingsRate: 50,
+  totalSavings: 500,
+  netSavings: 1000,
+  savingsRate: 16.67,
   transactionCount: 10,
 });
 
@@ -56,12 +57,12 @@ describe('TrendChartComponent', () => {
     expect(fixture.nativeElement.querySelector('app-chart-wrapper')).toBeTruthy();
   });
 
-  it('builds line chart config with three datasets', () => {
+  it('builds line chart config with four datasets', () => {
     fixture.componentRef.setInput('data', [makeTrend(2025, 1), makeTrend(2025, 2)]);
     fixture.detectChanges();
     const config = component.chartConfig();
     expect(config.type).toBe('line');
-    expect(config.data.datasets).toHaveLength(3);
+    expect(config.data.datasets).toHaveLength(4);
   });
 
   it('sorts data by year and month ascending', () => {
