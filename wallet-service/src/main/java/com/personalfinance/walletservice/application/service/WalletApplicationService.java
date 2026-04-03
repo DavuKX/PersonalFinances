@@ -150,6 +150,7 @@ public class WalletApplicationService implements WalletUseCase {
                 w.getId(), w.getUserId(), w.getName(), w.getCurrency(), w.getBalance(),
                 w.getSpendingLimit() != null ? w.getSpendingLimit().getAmount() : null,
                 w.getSpendingLimit() != null ? w.getSpendingLimit().getPeriod() : null,
+                w.getMonthlyIncome(),
                 w.isArchived(), w.getArchivedAt(),
                 w.getCreatedAt(), w.getUpdatedAt()
         );

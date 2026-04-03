@@ -3,7 +3,7 @@ import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { WalletApiService } from '../../../core/services/wallet-api.service';
 import { TransactionApiService } from '../../../core/services/transaction-api.service';
-import { WalletResponse } from '../../../core/models/wallet.models';
+import { LimitPeriod, SpendingSummaryResponse, WalletResponse } from '../../../core/models/wallet.models';
 import { TransactionResponse } from '../../../core/models/transaction.models';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
@@ -15,6 +15,7 @@ import { ConfirmationDialogComponent } from '../../../shared/components/confirma
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { WalletFormDialogComponent } from '../wallet-form-dialog/wallet-form-dialog.component';
 import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-limit-dialog.component';
+import { BudgetListComponent } from '../budget-list/budget-list.component';
 
 @Component({
   selector: 'app-wallet-detail',
@@ -32,6 +33,7 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
     EmptyStateComponent,
     WalletFormDialogComponent,
     SpendingLimitDialogComponent,
+    BudgetListComponent,
   ],
   template: `
     <div class="space-y-6">
@@ -54,7 +56,7 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
           <app-spinner size="lg" />
         </div>
       } @else if (wallet()) {
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           <app-card title="Balance">
             <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -75,15 +77,45 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
 
           <app-card title="Spending Limit">
             @if (wallet()!.spendingLimitAmount) {
-              <div class="space-y-2">
-                <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {{ wallet()!.spendingLimitAmount | number: '1.2-2' }}
-                  <span class="text-base font-normal text-gray-500">{{ wallet()!.currency }}</span>
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  per {{ wallet()!.spendingLimitPeriod | lowercase }}
-                </p>
-                <div class="flex gap-2 mt-3">
+              <div class="space-y-3">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {{ wallet()!.spendingLimitAmount | number: '1.2-2' }}
+                      <span class="text-base font-normal text-gray-500">{{ wallet()!.currency }}</span>
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      per {{ wallet()!.spendingLimitPeriod | lowercase }}
+                    </p>
+                  </div>
+                  @if (spendingSummary()) {
+                    <div class="text-right">
+                      <p class="text-sm font-medium" [class]="limitExceeded() ? 'text-rose-600 dark:text-rose-400' : 'text-gray-700 dark:text-gray-300'">
+                        {{ spendingSummary()!.spentAmount | number: '1.2-2' }} spent
+                      </p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ remaining() | number: '1.2-2' }} remaining
+                      </p>
+                    </div>
+                  }
+                </div>
+
+                @if (spendingSummary()) {
+                  <!-- Progress bar -->
+                  <div class="space-y-1">
+                    <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                      <div class="h-full rounded-full transition-all duration-500"
+                           [class]="limitExceeded() ? 'bg-rose-500' : spentPercent() >= 80 ? 'bg-amber-500' : 'bg-indigo-500'"
+                           [style.width.%]="Math.min(spentPercent(), 100)">
+                      </div>
+                    </div>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 text-right">
+                      {{ spentPercent() | number: '1.0-0' }}% used this {{ wallet()!.spendingLimitPeriod | lowercase }}
+                    </p>
+                  </div>
+                }
+
+                <div class="flex gap-2 mt-1">
                   <app-button size="sm" variant="secondary" (click)="limitDialogOpen.set(true)">Change</app-button>
                   <app-button size="sm" variant="ghost" (click)="removeSpendingLimit()">Remove</app-button>
                 </div>
@@ -95,7 +127,11 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
           </app-card>
         </div>
 
-        <app-card title="Transactions" [noPadding]="true">
+        @if (!wallet()!.archived) {
+          <app-budget-list [walletId]="wallet()!.id" />
+        }
+
+        <app-card title="Transactions" [noPadding]="true" class="my-6">
           @if (txLoading()) {
             <div class="flex justify-center py-10">
               <app-spinner />
@@ -168,7 +204,7 @@ import { SpendingLimitDialogComponent } from '../spending-limit-dialog/spending-
       <app-spending-limit-dialog
         [isOpen]="limitDialogOpen()"
         [walletId]="wallet()!.id"
-        (saved)="wallet.set($event)"
+        (saved)="onSpendingLimitSaved($event)"
         (closed)="limitDialogOpen.set(false)"
       />
     }
@@ -209,6 +245,26 @@ export class WalletDetailComponent {
     () => `Delete wallet "${this.wallet()?.name ?? ''}"? This action cannot be undone.`,
   );
 
+  protected readonly spendingSummary = signal<SpendingSummaryResponse | null>(null);
+
+  protected readonly spentPercent = computed(() => {
+    const s = this.spendingSummary();
+    const limit = this.wallet()?.spendingLimitAmount;
+    if (!s || !limit || limit === 0) return 0;
+    return (s.spentAmount / limit) * 100;
+  });
+
+  protected readonly remaining = computed(() => {
+    const s = this.spendingSummary();
+    const limit = this.wallet()?.spendingLimitAmount;
+    if (!s || !limit) return 0;
+    return limit - s.spentAmount;
+  });
+
+  protected readonly limitExceeded = computed(() => this.spentPercent() > 100);
+
+  protected readonly Math = Math;
+
   constructor() {
     effect(() => {
       const id = this.id();
@@ -223,12 +279,43 @@ export class WalletDetailComponent {
       next: (w) => {
         this.wallet.set(w);
         this.loading.set(false);
+        if (w.spendingLimitAmount && w.spendingLimitPeriod) {
+          this.loadSpendingSummary(id, w.spendingLimitPeriod);
+        }
       },
       error: () => {
         this.wallet.set(null);
         this.loading.set(false);
       },
     });
+  }
+
+  private loadSpendingSummary(walletId: string, period: LimitPeriod): void {
+    const { from, to } = this.currentPeriodRange(period);
+    this.transactionApi.getSpendingSummary(walletId, from, to).subscribe({
+      next: (s) => this.spendingSummary.set(s),
+      error: () => this.spendingSummary.set(null),
+    });
+  }
+
+  private currentPeriodRange(period: LimitPeriod): { from: string; to: string } {
+    const now = new Date();
+    let from: Date;
+    let to: Date;
+    if (period === LimitPeriod.DAILY) {
+      from = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      to = new Date(from.getTime() + 86_400_000);
+    } else if (period === LimitPeriod.WEEKLY) {
+      const day = now.getDay(); // 0=Sun
+      const diff = day === 0 ? -6 : 1 - day; // Monday as week start
+      from = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
+      to = new Date(from.getTime() + 7 * 86_400_000);
+    } else {
+      // MONTHLY
+      from = new Date(now.getFullYear(), now.getMonth(), 1);
+      to = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    }
+    return { from: from.toISOString(), to: to.toISOString() };
   }
 
   protected loadTransactions(page: number, id = this.id()): void {
@@ -276,10 +363,18 @@ export class WalletDetailComponent {
     this.walletApi.removeSpendingLimit(this.id()).subscribe({
       next: (w) => {
         this.wallet.set(w);
+        this.spendingSummary.set(null);
         this.toast.success('Spending limit removed');
       },
       error: () => this.toast.error('Failed to remove spending limit'),
     });
+  }
+
+  protected onSpendingLimitSaved(w: WalletResponse): void {
+    this.wallet.set(w);
+    if (w.spendingLimitAmount && w.spendingLimitPeriod) {
+      this.loadSpendingSummary(w.id, w.spendingLimitPeriod);
+    }
   }
 
   protected executeDelete(): void {

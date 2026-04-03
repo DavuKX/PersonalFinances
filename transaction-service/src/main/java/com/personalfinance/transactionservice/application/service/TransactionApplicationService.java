@@ -1,6 +1,7 @@
 package com.personalfinance.transactionservice.application.service;
 
 import com.personalfinance.transactionservice.application.dto.CreateTransactionCommand;
+import com.personalfinance.transactionservice.application.dto.SpendingSummaryDto;
 import com.personalfinance.transactionservice.application.dto.TransactionDto;
 import com.personalfinance.transactionservice.application.dto.TransactionFilterCommand;
 import com.personalfinance.transactionservice.application.dto.TransactionPageDto;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Service
@@ -87,6 +89,12 @@ public class TransactionApplicationService implements TransactionUseCase {
                 transaction.getId(), transaction.getUserId(), transaction.getWalletId(),
                 transaction.getType(), transaction.getAmount(), transaction.getCurrency(),
                 transaction.getCategoryId(), transaction.getSubCategoryId(), transaction.getTransactionDate()));
+    }
+
+    @Override
+    public SpendingSummaryDto getSpendingSummary(UUID userId, UUID walletId, OffsetDateTime from, OffsetDateTime to) {
+        java.math.BigDecimal spent = transactionRepository.sumSpending(walletId, userId, from, to);
+        return new SpendingSummaryDto(spent, from, to);
     }
 
     private void validateCategories(UUID userId, UUID categoryId, UUID subCategoryId) {

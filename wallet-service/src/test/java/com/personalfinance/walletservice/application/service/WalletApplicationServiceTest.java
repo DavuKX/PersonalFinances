@@ -49,8 +49,8 @@ class WalletApplicationServiceTest {
         userId = UUID.randomUUID();
         walletId = UUID.randomUUID();
         OffsetDateTime now = OffsetDateTime.now();
-        wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.valueOf(1000), null, false, null, now, now);
-        archivedWallet = new Wallet(walletId, userId, "Old Wallet", "USD", BigDecimal.ZERO, null, true, now, now, now);
+        wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.valueOf(1000), null, null, false, null, now, now);
+        archivedWallet = new Wallet(walletId, userId, "Old Wallet", "USD", BigDecimal.ZERO, null, null, true, now, now, now);
     }
 
     @Test
@@ -66,7 +66,7 @@ class WalletApplicationServiceTest {
     @Test
     void create_defaultsBalanceToZero_whenNullProvided() {
         OffsetDateTime now = OffsetDateTime.now();
-        Wallet zeroWallet = new Wallet(walletId, userId, "Empty", "EUR", BigDecimal.ZERO, null, false, null, now, now);
+        Wallet zeroWallet = new Wallet(walletId, userId, "Empty", "EUR", BigDecimal.ZERO, null, null, false, null, now, now);
         when(walletRepository.save(any())).thenReturn(zeroWallet);
 
         WalletDto dto = walletService.create(userId, new CreateWalletCommand("Empty", "eur", null));
@@ -113,7 +113,7 @@ class WalletApplicationServiceTest {
     @Test
     void update_returnsUpdatedDto_whenActiveWallet() {
         OffsetDateTime now = OffsetDateTime.now();
-        Wallet updated = new Wallet(walletId, userId, "Savings", "USD", BigDecimal.valueOf(1000), null, false, null, now, now);
+        Wallet updated = new Wallet(walletId, userId, "Savings", "USD", BigDecimal.valueOf(1000), null, null, false, null, now, now);
         when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(wallet));
         when(walletRepository.save(any())).thenReturn(updated);
 
@@ -134,7 +134,7 @@ class WalletApplicationServiceTest {
     void setSpendingLimit_savesLimitAndReturnsDto() {
         OffsetDateTime now = OffsetDateTime.now();
         Wallet withLimit = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.valueOf(1000),
-                new SpendingLimit(BigDecimal.valueOf(500), LimitPeriod.MONTHLY), false, null, now, now);
+                new SpendingLimit(BigDecimal.valueOf(500), LimitPeriod.MONTHLY), null, false, null, now, now);
         when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(wallet));
         when(walletRepository.save(any())).thenReturn(withLimit);
 
@@ -202,10 +202,10 @@ class WalletApplicationServiceTest {
     @Test
     void getTotals_sumsByActiveCurrencies() {
         OffsetDateTime now = OffsetDateTime.now();
-        Wallet usd1 = new Wallet(UUID.randomUUID(), userId, "W1", "USD", BigDecimal.valueOf(100), null, false, null, now, now);
-        Wallet usd2 = new Wallet(UUID.randomUUID(), userId, "W2", "USD", BigDecimal.valueOf(200), null, false, null, now, now);
-        Wallet eur = new Wallet(UUID.randomUUID(), userId, "W3", "EUR", BigDecimal.valueOf(50), null, false, null, now, now);
-        Wallet archived = new Wallet(UUID.randomUUID(), userId, "W4", "USD", BigDecimal.valueOf(999), null, true, now, now, now);
+        Wallet usd1 = new Wallet(UUID.randomUUID(), userId, "W1", "USD", BigDecimal.valueOf(100), null, null, false, null, now, now);
+        Wallet usd2 = new Wallet(UUID.randomUUID(), userId, "W2", "USD", BigDecimal.valueOf(200), null, null, false, null, now, now);
+        Wallet eur = new Wallet(UUID.randomUUID(), userId, "W3", "EUR", BigDecimal.valueOf(50), null, null, false, null, now, now);
+        Wallet archived = new Wallet(UUID.randomUUID(), userId, "W4", "USD", BigDecimal.valueOf(999), null, null, true, now, now, now);
         when(walletRepository.findByUserId(userId)).thenReturn(List.of(usd1, usd2, eur, archived));
 
         WalletTotalsDto dto = walletService.getTotals(userId);
@@ -236,7 +236,7 @@ class WalletApplicationServiceTest {
     @Test
     void adjustBalance_shouldUpdateWalletBalance() {
         Wallet wallet = new Wallet(walletId, userId, "Test Wallet", "USD", BigDecimal.valueOf(100),
-                null, false, null, OffsetDateTime.now(), OffsetDateTime.now());
+                null, null, false, null, OffsetDateTime.now(), OffsetDateTime.now());
         Wallet adjustedWallet = wallet.adjustBalance(BigDecimal.valueOf(50));
 
         when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(wallet));
@@ -250,7 +250,7 @@ class WalletApplicationServiceTest {
     @Test
     void adjustBalance_shouldIgnoreArchivedWallet() {
         Wallet archivedWallet = new Wallet(walletId, userId, "Test Wallet", "USD", BigDecimal.valueOf(100),
-                null, true, OffsetDateTime.now(), OffsetDateTime.now(), OffsetDateTime.now());
+                null, null, true, OffsetDateTime.now(), OffsetDateTime.now(), OffsetDateTime.now());
 
         when(walletRepository.findByIdAndUserId(walletId, userId)).thenReturn(Optional.of(archivedWallet));
 

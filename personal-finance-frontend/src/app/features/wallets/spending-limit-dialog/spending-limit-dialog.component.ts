@@ -35,7 +35,7 @@ import { LimitPeriod, WalletResponse } from '../../../core/models/wallet.models'
           />
         </app-form-field>
 
-        <app-form-field label="Period" fieldId="limit-period" [required]="true">
+        <app-form-field label="Period" fieldId="limit-period" [required]="true" class="m-2">
           <select id="limit-period" formControlName="period" [class]="inputClass">
             <option value="DAILY">Daily</option>
             <option value="WEEKLY">Weekly</option>

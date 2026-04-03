@@ -17,6 +17,7 @@ public class WalletJpaMapper {
         entity.setBalance(wallet.getBalance());
         entity.setSpendingLimitAmount(wallet.getSpendingLimit() != null ? wallet.getSpendingLimit().getAmount() : null);
         entity.setSpendingLimitPeriod(wallet.getSpendingLimit() != null ? wallet.getSpendingLimit().getPeriod() : null);
+        entity.setMonthlyIncome(wallet.getMonthlyIncome());
         entity.setArchived(wallet.isArchived());
         entity.setArchivedAt(wallet.getArchivedAt());
         entity.setCreatedAt(wallet.getCreatedAt());
@@ -36,6 +37,7 @@ public class WalletJpaMapper {
                 entity.getCurrency(),
                 entity.getBalance(),
                 spendingLimit,
+                entity.getMonthlyIncome(),
                 entity.isArchived(),
                 entity.getArchivedAt(),
                 entity.getCreatedAt(),

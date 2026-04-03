@@ -50,7 +50,7 @@ class WalletRepositoryAdapterTest {
     @Test
     void save_returnsMappedDomainWallet() {
         when(jpaRepository.save(any())).thenReturn(entity);
-        Wallet wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.valueOf(500), null, false, null, entity.getCreatedAt(), entity.getUpdatedAt());
+        Wallet wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.valueOf(500), null, null, false, null, entity.getCreatedAt(), entity.getUpdatedAt());
 
         Wallet saved = adapter.save(wallet);
 
@@ -87,7 +87,7 @@ class WalletRepositoryAdapterTest {
 
     @Test
     void delete_callsDeleteById() {
-        Wallet wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.ZERO, null, false, null, OffsetDateTime.now(), OffsetDateTime.now());
+        Wallet wallet = new Wallet(walletId, userId, "Main Wallet", "USD", BigDecimal.ZERO, null, null, false, null, OffsetDateTime.now(), OffsetDateTime.now());
 
         adapter.delete(wallet);
 

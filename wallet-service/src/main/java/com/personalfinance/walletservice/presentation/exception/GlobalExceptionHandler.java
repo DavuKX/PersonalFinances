@@ -1,5 +1,7 @@
 package com.personalfinance.walletservice.presentation.exception;
 
+import com.personalfinance.walletservice.domain.exception.BudgetLimitExceededException;
+import com.personalfinance.walletservice.domain.exception.BudgetNotFoundException;
 import com.personalfinance.walletservice.domain.exception.WalletArchivedStateException;
 import com.personalfinance.walletservice.domain.exception.WalletNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WalletArchivedStateException.class)
     public ResponseEntity<Map<String, Object>> handleWalletArchivedState(WalletArchivedStateException ex) {
         return errorResponse(HttpStatus.CONFLICT, "WALLET_ARCHIVED_STATE", ex.getMessage());
+    }
+
+    @ExceptionHandler(BudgetNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleBudgetNotFound(BudgetNotFoundException ex) {
+        return errorResponse(HttpStatus.NOT_FOUND, "NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(BudgetLimitExceededException.class)
+    public ResponseEntity<Map<String, Object>> handleBudgetLimitExceeded(BudgetLimitExceededException ex) {
+        return errorResponse(HttpStatus.UNPROCESSABLE_ENTITY, "BUDGET_LIMIT_EXCEEDED", ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

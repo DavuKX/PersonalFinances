@@ -25,16 +25,25 @@ public class TransactionCreatedEvent {
     @JsonProperty
     private String currency;
 
+    @JsonProperty
+    private UUID categoryId;
+
+    @JsonProperty
+    private UUID subCategoryId;
+
     public TransactionCreatedEvent() {}
 
     public TransactionCreatedEvent(UUID transactionId, UUID userId, UUID walletId,
-                                   String type, BigDecimal amount, String currency) {
+                                   String type, BigDecimal amount, String currency,
+                                   UUID categoryId, UUID subCategoryId) {
         this.transactionId = transactionId;
         this.userId = userId;
         this.walletId = walletId;
         this.type = type;
         this.amount = amount;
         this.currency = currency;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
     }
 
     public UUID getTransactionId() { return transactionId; }
@@ -54,4 +63,10 @@ public class TransactionCreatedEvent {
 
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
+
+    public UUID getCategoryId() { return categoryId; }
+    public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
+
+    public UUID getSubCategoryId() { return subCategoryId; }
+    public void setSubCategoryId(UUID subCategoryId) { this.subCategoryId = subCategoryId; }
 }

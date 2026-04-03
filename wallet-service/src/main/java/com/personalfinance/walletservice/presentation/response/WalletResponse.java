@@ -15,6 +15,7 @@ public class WalletResponse {
     private BigDecimal balance;
     private BigDecimal spendingLimitAmount;
     private LimitPeriod spendingLimitPeriod;
+    private BigDecimal monthlyIncome;
     private boolean archived;
     private OffsetDateTime archivedAt;
     private OffsetDateTime createdAt;
@@ -40,6 +41,9 @@ public class WalletResponse {
 
     public LimitPeriod getSpendingLimitPeriod() { return spendingLimitPeriod; }
     public void setSpendingLimitPeriod(LimitPeriod spendingLimitPeriod) { this.spendingLimitPeriod = spendingLimitPeriod; }
+
+    public BigDecimal getMonthlyIncome() { return monthlyIncome; }
+    public void setMonthlyIncome(BigDecimal monthlyIncome) { this.monthlyIncome = monthlyIncome; }
 
     public boolean isArchived() { return archived; }
     public void setArchived(boolean archived) { this.archived = archived; }

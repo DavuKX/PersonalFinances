@@ -8,6 +8,7 @@ import {
   TransactionResponse,
   UpdateTransactionRequest,
 } from '../models/transaction.models';
+import { SpendingSummaryResponse } from '../models/wallet.models';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionApiService {
@@ -56,5 +57,12 @@ export class TransactionApiService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/transactions/${id}`);
+  }
+
+  getSpendingSummary(walletId: string, from: string, to: string): Observable<SpendingSummaryResponse> {
+    return this.http.get<SpendingSummaryResponse>(
+      `${this.baseUrl}/wallets/${walletId}/spending-summary`,
+      { params: { from, to } },
+    );
   }
 }

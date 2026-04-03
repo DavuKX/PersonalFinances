@@ -1,12 +1,14 @@
 package com.personalfinance.transactionservice.application.usecase;
 
 import com.personalfinance.transactionservice.application.dto.CreateTransactionCommand;
+import com.personalfinance.transactionservice.application.dto.SpendingSummaryDto;
 import com.personalfinance.transactionservice.application.dto.TransactionDto;
 import com.personalfinance.transactionservice.application.dto.TransactionFilterCommand;
 import com.personalfinance.transactionservice.application.dto.TransactionPageDto;
 import com.personalfinance.transactionservice.application.dto.UpdateTransactionCommand;
 import org.springframework.data.domain.Pageable;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public interface TransactionUseCase {
@@ -16,4 +18,5 @@ public interface TransactionUseCase {
     TransactionPageDto listByUser(TransactionFilterCommand filter);
     TransactionDto update(UUID userId, UUID transactionId, UpdateTransactionCommand command);
     void delete(UUID userId, UUID transactionId);
+    SpendingSummaryDto getSpendingSummary(UUID userId, UUID walletId, OffsetDateTime from, OffsetDateTime to);
 }

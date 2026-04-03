@@ -69,4 +69,12 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
     public void delete(Transaction transaction) {
         jpaRepository.deleteById(transaction.getId());
     }
+
+    @Override
+    public java.math.BigDecimal sumSpending(UUID walletId, UUID userId, OffsetDateTime from, OffsetDateTime to) {
+        return jpaRepository.sumAmountByWalletIdAndUserIdAndTypeInAndDateBetween(
+                walletId, userId,
+                List.of(TransactionType.EXPENSE, TransactionType.SAVINGS),
+                from, to);
+    }
 }

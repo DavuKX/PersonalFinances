@@ -37,6 +37,9 @@ public class WalletJpaEntity {
     @Column(length = 10)
     private LimitPeriod spendingLimitPeriod;
 
+    @Column(precision = 19, scale = 4)
+    private BigDecimal monthlyIncome;
+
     @Column(nullable = false)
     private boolean archived = false;
 
@@ -68,6 +71,9 @@ public class WalletJpaEntity {
 
     public LimitPeriod getSpendingLimitPeriod() { return spendingLimitPeriod; }
     public void setSpendingLimitPeriod(LimitPeriod spendingLimitPeriod) { this.spendingLimitPeriod = spendingLimitPeriod; }
+
+    public BigDecimal getMonthlyIncome() { return monthlyIncome; }
+    public void setMonthlyIncome(BigDecimal monthlyIncome) { this.monthlyIncome = monthlyIncome; }
 
     public boolean isArchived() { return archived; }
     public void setArchived(boolean archived) { this.archived = archived; }

@@ -44,3 +44,10 @@ export interface CurrencyTotal {
 export interface WalletTotalsResponse {
   totals: CurrencyTotal[];
 }
+
+export interface SpendingSummaryResponse {
+  spentAmount: number;
+  from: string;
+  to: string;
+}
+

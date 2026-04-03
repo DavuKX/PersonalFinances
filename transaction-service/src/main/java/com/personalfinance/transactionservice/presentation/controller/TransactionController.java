@@ -1,6 +1,7 @@
 package com.personalfinance.transactionservice.presentation.controller;
 
 import com.personalfinance.transactionservice.application.dto.CreateTransactionCommand;
+import com.personalfinance.transactionservice.application.dto.SpendingSummaryDto;
 import com.personalfinance.transactionservice.application.dto.TransactionDto;
 import com.personalfinance.transactionservice.application.dto.TransactionFilterCommand;
 import com.personalfinance.transactionservice.application.dto.TransactionPageDto;
@@ -9,6 +10,7 @@ import com.personalfinance.transactionservice.application.usecase.TransactionUse
 import com.personalfinance.transactionservice.domain.model.TransactionType;
 import com.personalfinance.transactionservice.presentation.request.CreateTransactionRequest;
 import com.personalfinance.transactionservice.presentation.request.UpdateTransactionRequest;
+import com.personalfinance.transactionservice.presentation.response.SpendingSummaryResponse;
 import com.personalfinance.transactionservice.presentation.response.TransactionPageResponse;
 import com.personalfinance.transactionservice.presentation.response.TransactionResponse;
 import jakarta.validation.Valid;
@@ -101,6 +103,20 @@ public class TransactionController {
     @GetMapping("/transactions/health")
     public String health() {
         return "OK";
+    }
+
+    @GetMapping("/wallets/{walletId}/spending-summary")
+    public ResponseEntity<SpendingSummaryResponse> getSpendingSummary(
+            @RequestHeader("X-User-Id") UUID userId,
+            @PathVariable UUID walletId,
+            @RequestParam OffsetDateTime from,
+            @RequestParam OffsetDateTime to) {
+        SpendingSummaryDto dto = transactionUseCase.getSpendingSummary(userId, walletId, from, to);
+        SpendingSummaryResponse response = new SpendingSummaryResponse();
+        response.setSpentAmount(dto.spentAmount());
+        response.setFrom(dto.from());
+        response.setTo(dto.to());
+        return ResponseEntity.ok(response);
     }
 
     private TransactionResponse toResponse(TransactionDto dto) {

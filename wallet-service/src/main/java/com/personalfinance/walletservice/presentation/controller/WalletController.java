@@ -134,6 +134,7 @@ public class WalletController {
         response.setBalance(dto.balance());
         response.setSpendingLimitAmount(dto.spendingLimitAmount());
         response.setSpendingLimitPeriod(dto.spendingLimitPeriod());
+        response.setMonthlyIncome(dto.monthlyIncome());
         response.setArchived(dto.archived());
         response.setArchivedAt(dto.archivedAt());
         response.setCreatedAt(dto.createdAt());

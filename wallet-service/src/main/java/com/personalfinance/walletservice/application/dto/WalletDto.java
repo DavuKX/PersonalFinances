@@ -14,6 +14,7 @@ public record WalletDto(
         BigDecimal balance,
         BigDecimal spendingLimitAmount,
         LimitPeriod spendingLimitPeriod,
+        BigDecimal monthlyIncome,
         boolean archived,
         OffsetDateTime archivedAt,
         OffsetDateTime createdAt,

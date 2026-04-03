@@ -2,10 +2,10 @@ import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-card',
-  host: { class: 'block' },
+  host: { class: 'block h-full' },
   template: `
     <div
-      class="bg-white dark:bg-gray-900 rounded-xl shadow-sm dark:shadow-none border border-gray-200 dark:border-gray-700 overflow-hidden"
+      class="h-full bg-white dark:bg-gray-900 rounded-xl shadow-sm dark:shadow-none border border-gray-200 dark:border-gray-700 overflow-hidden"
       [class.p-0]="noPadding()"
     >
       @if (title()) {
