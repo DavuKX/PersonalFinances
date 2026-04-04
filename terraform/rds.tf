@@ -37,8 +37,8 @@ resource "aws_db_instance" "main" {
   instance_class = var.rds_instance_class
 
   allocated_storage     = var.rds_allocated_storage
-  max_allocated_storage = var.rds_allocated_storage * 2
-  storage_encrypted     = true
+  max_allocated_storage = 0 # disable autoscaling for free tier
+  storage_encrypted     = false # free tier does not support encryption on db.t3.micro
 
   db_name  = "userdb" # default database; we create others via provisioner
   username = var.rds_master_username
@@ -52,7 +52,7 @@ resource "aws_db_instance" "main" {
   skip_final_snapshot = true
   deletion_protection = false # set to true for real production
 
-  backup_retention_period = 7
+  backup_retention_period = 1 # free tier only allows up to 1 day
   backup_window           = "03:00-04:00"
   maintenance_window      = "Mon:04:00-Mon:05:00"
 

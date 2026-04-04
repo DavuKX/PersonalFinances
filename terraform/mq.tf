@@ -41,10 +41,11 @@ resource "aws_security_group" "mq" {
 resource "aws_mq_broker" "rabbitmq" {
   broker_name = "${var.project_name}-mq"
 
-  engine_type        = "RabbitMQ"
-  engine_version     = var.mq_engine_version
-  host_instance_type = var.mq_instance_type
-  deployment_mode    = "SINGLE_INSTANCE"
+  engine_type                = "RabbitMQ"
+  engine_version             = var.mq_engine_version
+  host_instance_type         = var.mq_instance_type
+  deployment_mode            = "SINGLE_INSTANCE"
+  auto_minor_version_upgrade = true
 
   publicly_accessible = false
   subnet_ids          = [module.vpc.database_subnets[0]]

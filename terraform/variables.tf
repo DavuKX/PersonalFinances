@@ -16,7 +16,7 @@ variable "environment" {
 variable "project_name" {
   description = "Project name used as prefix for resource naming"
   type        = string
-  default     = "personalfinance"
+  default     = "perfin"
 }
 
 # -----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ variable "eks_cluster_version" {
 variable "eks_node_instance_type" {
   description = "EC2 instance type for EKS worker nodes"
   type        = string
-  default     = "t3.medium"
+  default     = "t3.micro"
 }
 
 variable "eks_node_desired" {
