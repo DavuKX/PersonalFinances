@@ -5,10 +5,9 @@ metadata:
   namespace: personalfinance
 data:
   SERVER_PORT: "8081"
-  DB_URL: jdbc:postgresql://postgres.personalfinance.svc.cluster.local:5432/userdb
-  REDIS_HOST: redis.personalfinance.svc.cluster.local
+  DB_URL: jdbc:postgresql://__RDS_ENDPOINT__:5432/userdb
+  REDIS_HOST: __REDIS_ENDPOINT__
   REDIS_PORT: "6379"
   JWT_EXPIRATION_MS: "900000"
   JWT_REFRESH_EXPIRATION_MS: "604800000"
-  JPA_DDL_AUTO: update
-
+  JPA_DDL_AUTO: validate

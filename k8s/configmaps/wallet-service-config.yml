@@ -5,8 +5,8 @@ metadata:
   namespace: personalfinance
 data:
   SERVER_PORT: "8082"
-  DB_URL: jdbc:postgresql://postgres.personalfinance.svc.cluster.local:5432/walletdb
-  RABBITMQ_HOST: rabbitmq.personalfinance.svc.cluster.local
-  RABBITMQ_PORT: "5672"
-  JPA_DDL_AUTO: update
-
+  DB_URL: jdbc:postgresql://__RDS_ENDPOINT__:5432/walletdb
+  RABBITMQ_HOST: __MQ_ENDPOINT__
+  RABBITMQ_PORT: "5671"
+  JPA_DDL_AUTO: validate
+  SPRING_RABBITMQ_SSL_ENABLED: "true"

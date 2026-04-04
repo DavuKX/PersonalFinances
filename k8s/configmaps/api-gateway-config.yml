@@ -5,10 +5,9 @@ metadata:
   namespace: personalfinance
 data:
   SERVER_PORT: "8080"
-  REDIS_HOST: redis.personalfinance.svc.cluster.local
+  REDIS_HOST: __REDIS_ENDPOINT__
   REDIS_PORT: "6379"
   USER_SERVICE_URL: http://user-service.personalfinance.svc.cluster.local:8081
   TRANSACTION_SERVICE_URL: http://transaction-service.personalfinance.svc.cluster.local:8083
   WALLET_SERVICE_URL: http://wallet-service.personalfinance.svc.cluster.local:8082
   ANALYTICS_SERVICE_URL: http://analytics-service.personalfinance.svc.cluster.local:8084
-

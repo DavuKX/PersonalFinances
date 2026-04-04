@@ -1,0 +1,31 @@
+# ─── Example values — copy to terraform.tfvars and customise ──────────────────
+
+aws_region  = "us-east-1"
+environment = "prod"
+
+# EKS
+eks_cluster_version    = "1.31"
+eks_node_instance_type = "t3.medium"
+eks_node_desired       = 2
+eks_node_min           = 1
+eks_node_max           = 4
+
+# RDS
+rds_instance_class    = "db.t3.micro"
+rds_allocated_storage = 20
+rds_engine_version    = "17.2"
+rds_master_username   = "postgres"
+
+# ElastiCache
+redis_node_type      = "cache.t3.micro"
+redis_engine_version = "7.1"
+
+# Amazon MQ
+mq_instance_type   = "mq.t3.micro"
+mq_engine_version  = "3.13"
+mq_username        = "admin"
+
+# Frontend (optional — leave empty to use CloudFront default domain)
+# frontend_domain          = "app.personalfinance.example.com"
+# frontend_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/abc-123"
+
