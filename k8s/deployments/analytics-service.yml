@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: analytics-service
-  namespace: personalfinance
+  namespace: personal-finance
   labels:
     app: analytics-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: analytics-service
@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
         - name: analytics-service
-          image: <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/personalfinance/analytics-service:latest
+          image: davukx/finance-analytics-service:1.0
           ports:
-            - containerPort: 8084
+            - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: analytics-service-config
@@ -27,23 +27,15 @@ spec:
                 name: db-secrets
             - secretRef:
                 name: rabbitmq-secrets
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8084
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8084
+              port: 8080
             initialDelaySeconds: 20
             periodSeconds: 10
-

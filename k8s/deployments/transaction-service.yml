@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: transaction-service
-  namespace: personalfinance
+  namespace: personal-finance
   labels:
     app: transaction-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: transaction-service
@@ -17,33 +17,25 @@ spec:
     spec:
       containers:
         - name: transaction-service
-          image: <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/personalfinance/transaction-service:latest
+          image: davukx/finance-transaction-service:1.1
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: transaction-service-config
             - secretRef:
                 name: db-secrets
             - secretRef:
-                name: rabbitmq-secrets
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+                name: jwt-secret
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8083
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8083
+              port: 8080
             initialDelaySeconds: 20
             periodSeconds: 10
-
