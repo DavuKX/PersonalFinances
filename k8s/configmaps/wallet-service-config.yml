@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wallet-service-config
+  namespace: personal-finance
+data:
+  SERVER_PORT: "8080"
+  DB_URL: jdbc:postgresql://postgres-service:5432/finance-db
+  REDIS_HOST: redis-service
+  REDIS_PORT: "6379"
+  JPA_DDL_AUTO: update
+  RABBITMQ_HOST: rabbitmq-service
+  RABBITMQ_PORT: "5672"
